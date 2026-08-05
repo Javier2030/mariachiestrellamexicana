@@ -176,6 +176,9 @@ p { margin: 0 0 1.1em; }
 .stat span { font-size: .82rem; color: var(--muted); letter-spacing: .04em; }
 
 /* --- Rejillas genéricas --- */
+/* El header es sticky: cualquier ancla debe frenar por debajo de él. */
+[id] { scroll-margin-top: 86px; }
+
 .grid { display: grid; gap: 22px; }
 .g-2 { grid-template-columns: repeat(2, 1fr); }
 .g-3 { grid-template-columns: repeat(3, 1fr); }
