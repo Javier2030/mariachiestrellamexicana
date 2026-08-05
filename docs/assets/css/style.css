@@ -380,6 +380,15 @@ p { margin: 0 0 1.1em; }
   .nav .btn { margin-top: 12px; }
   .burger { display: block; margin-left: auto; }
   .g-2, .g-3, .g-4, .g-5 { grid-template-columns: 1fr; }
+  /* Servicios: seis tarjetas apiladas eran ~2.400 px de scroll antes de los paquetes.
+     En móvil se compactan a tres por fila —icono y título— y el detalle se lee en la
+     página del servicio. La sección pasa a ocupar dos filas. */
+  .svc { grid-template-columns: repeat(3, 1fr) !important; gap: 9px; }
+  .svc .card { padding: 15px 8px 14px; text-align: center; border-radius: 12px; }
+  .svc .card .ico { width: 34px; height: 34px; border-radius: 10px; margin: 0 auto 9px; }
+  .svc .card .ico svg { width: 17px; height: 17px; }
+  .svc .card h3 { font-size: .78rem; line-height: 1.25; margin: 0; hyphens: auto; }
+  .svc .card p { display: none; }
   /* Las tablas de datos no caben en 390 px: se apilan fila a fila, con la
      etiqueta de columna delante de cada valor (data-l). */
   .prose table { display: block; margin: 1.4em 0; }
