@@ -101,17 +101,19 @@
 
     <div class="quote-card">
       <h3>Cotización en 5 minutos</h3>
-      <p>Sin compromiso. Le confirmamos disponibilidad y precio cerrado.</p>
+      
       <form id="quote-form" novalidate>
-        <div class="field">
-          <label for="q-name">Su nombre</label>
-          <input id="q-name" name="nombre" type="text" placeholder="Ej. Andrés Gómez" required autocomplete="name">
-          <span class="err">Escriba su nombre.</span>
-        </div>
-        <div class="field">
-          <label for="q-phone">Celular / WhatsApp</label>
-          <input id="q-phone" name="telefono" type="tel" placeholder="Su número de celular" required autocomplete="tel" inputmode="tel">
-          <span class="err">Escriba un celular colombiano de 10 dígitos.</span>
+        <div class="row-2">
+          <div class="field">
+            <label for="q-name">Su nombre</label>
+            <input id="q-name" name="nombre" type="text" placeholder="Ej. Andrés Gómez" required autocomplete="name">
+            <span class="err">Escriba su nombre.</span>
+          </div>
+          <div class="field">
+            <label for="q-phone">Celular / WhatsApp</label>
+            <input id="q-phone" name="telefono" type="tel" placeholder="Su número" required autocomplete="tel" inputmode="tel">
+            <span class="err">Celular de 10 dígitos.</span>
+          </div>
         </div>
         <div class="row-2">
           <div class="field">
@@ -125,22 +127,8 @@
             <span class="err">Elija la hora.</span>
           </div>
         </div>
-        <div class="field">
-          <label for="q-zone">Localidad</label>
-          <select id="q-zone" name="zona" required>
-            <option value="">Seleccione…</option>
-            <option>Chapinero</option><option>Usaquén</option><option>Suba</option>
-            <option>Engativá</option><option>Teusaquillo</option><option>Kennedy</option>
-            <option>Fontibón</option><option>Bosa</option><option>Ciudad Bolívar</option>
-            <option>Puente Aranda</option><option>Barrios Unidos</option><option>San Cristóbal</option>
-            <option>Usme</option><option>Rafael Uribe</option><option>Antonio Nariño</option>
-            <option>Tunjuelito</option><option>Los Mártires</option><option>Santa Fe</option>
-            <option>La Candelaria</option><option>Soacha</option><option>Otro municipio</option>
-          </select>
-          <span class="err">Seleccione la localidad.</span>
-        </div>
-        <button class="btn btn-gold" type="submit" style="width:100%" data-cta="lp-form">Recibir cotización</button>
-        <p class="form-note">Se abre WhatsApp con su solicitud lista. Sus datos no se comparten.</p>
+        <button class="btn btn-gold" type="submit" style="width:100%" data-cta="lp-form-submit">Recibir cotización</button>
+        <p class="form-note">Se abre WhatsApp con su solicitud lista.</p>
       </form>
     </div>
   </div>

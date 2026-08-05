@@ -96,7 +96,9 @@
         return;
       }
 
-      var g = function (id) { return (document.getElementById(id).value || '').trim(); };
+      // El campo de localidad se retiró del formulario: la cobertura es toda Bogotá
+      // y Soacha, así que g() tolera que el elemento no exista.
+      var g = function (id) { var el = document.getElementById(id); return el ? (el.value || '').trim() : ''; };
       var fecha = g('q-date');
       var fechaTxt = fecha;
       try {
@@ -111,8 +113,7 @@
         '• Nombre: ' + g('q-name') + '\n' +
         '• Celular: ' + g('q-phone') + '\n' +
         '• Fecha: ' + fechaTxt + '\n' +
-        '• Hora: ' + g('q-time') + '\n' +
-        '• Localidad: ' + g('q-zone');
+        '• Hora: ' + g('q-time') + (g('q-zone') ? '\n• Localidad: ' + g('q-zone') : '');
 
       // Adjunta el gclid para poder atribuir la conversión a la campaña.
       var gclid = sessionStorage.getItem('mem_gclid');

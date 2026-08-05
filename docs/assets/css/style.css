@@ -148,15 +148,17 @@ p { margin: 0 0 1.1em; }
 .quote-card {
   background: linear-gradient(165deg, #ffffff, #fdf1f8);
   border: 1px solid var(--line); border-radius: var(--r);
-  padding: clamp(24px, 3vw, 34px); box-shadow: var(--shadow);
+  padding: clamp(16px, 2vw, 22px); box-shadow: var(--shadow);
 }
-.quote-card h3 { margin-bottom: 6px; color: var(--gold-2); }
-.quote-card > p { font-size: .9rem; color: var(--muted); margin-bottom: 20px; }
+/* El cuadro compite con el titular por la primera pantalla: va compacto a propósito
+   —dos campos por fila, sin subtítulo— para que quepa junto al resto del hero. */
+.quote-card h3 { margin-bottom: 14px; color: var(--gold-2); font-size: 1.15rem; }
+.quote-card > p { font-size: .86rem; color: var(--muted); margin-bottom: 14px; }
 
-.field { margin-bottom: 15px; }
-.field label { display: block; font-size: .79rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--paper-dim); margin-bottom: 7px; }
+.field { margin-bottom: 10px; }
+.field label { display: block; font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--paper-dim); margin-bottom: 4px; }
 .field input, .field select, .field textarea {
-  width: 100%; padding: 13px 15px; font-size: 1rem; font-family: inherit;
+  width: 100%; padding: 9px 12px; font-size: .95rem; font-family: inherit;
   color: var(--paper); background: #fff;
   border: 1px solid rgba(164, 22, 95, .28); border-radius: 10px;
   transition: var(--t); appearance: none;
@@ -169,11 +171,13 @@ p { margin: 0 0 1.1em; }
   outline: 0; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(164, 22, 95, .16); background: #fff;
 }
 .field input::placeholder, .field textarea::placeholder { color: #a1839a; }
-.field .err { display: none; margin-top: 5px; font-size: .8rem; color: var(--red-2); }
+.field .err { display: none; margin-top: 3px; font-size: .75rem; color: var(--red-2); }
 .field.invalid input, .field.invalid select { border-color: var(--red-2); }
 .field.invalid .err { display: block; }
-.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
-.form-note { margin: 14px 0 0; font-size: .77rem; color: var(--muted); text-align: center; line-height: 1.5; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-note { margin: 9px 0 0; font-size: .73rem; color: var(--muted); text-align: center; line-height: 1.4; }
+
+#quote-form .btn-gold, .lp-form .btn-gold { padding: 11px 22px; font-size: .95rem; }
 
 /* --- Franja de credibilidad --- */
 .stats { border-block: 1px solid var(--line); background: var(--ink-2); }
@@ -413,7 +417,13 @@ p { margin: 0 0 1.1em; }
   .viewer-nav.prev { left: 8px; }
   .viewer-nav.next { right: 8px; }
   .stats .wrap { grid-template-columns: 1fr 1fr; gap: 26px 18px; }
-  .row-2 { grid-template-columns: 1fr; }
+  /* Los cuatro campos caben de a dos incluso en 360 px: apilarlos duplicaba el
+     alto del cuadro de cotización, que es lo primero que se ve en el móvil. */
+  .row-2 { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .quote-card { padding: 15px 14px; }
+  .quote-card h3 { font-size: 1.05rem; margin-bottom: 11px; }
+  .field label { font-size: .64rem; letter-spacing: .04em; }
+  .field input, .field select { padding: 8px 10px; font-size: .9rem; }
   .mobile-bar { display: flex; }
   body { padding-bottom: 74px; }
   .ftr-grid { grid-template-columns: 1fr; gap: 26px; }
