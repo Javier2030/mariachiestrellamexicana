@@ -181,21 +181,42 @@
       vImg.alt = b.getAttribute('data-alt');
       vCap.textContent = b.getAttribute('data-alt');
     }
+    // Abrir una foto mete una entrada en el historial. Así el botón «atrás» del
+    // teléfono cierra la foto y devuelve a la página, en vez de sacar al visitante
+    // del sitio, que era lo que pasaba antes.
+    var enHistorial = false;
+
     function abrir(i) {
       previo = document.activeElement;
       mostrar(i);
       visor.classList.add('open');
       document.body.style.overflow = 'hidden';
       visor.querySelector('.viewer-close').focus();
+      if (!enHistorial) {
+        try { history.pushState({ memVisor: 1 }, ''); enHistorial = true; } catch (_) { /* sin historial, se cierra igual con la ✕ */ }
+      }
     }
-    function cerrar() {
+
+    // `retroceder` es false cuando quien cierra ES el botón atrás: ahí el navegador
+    // ya consumió la entrada y llamar a history.back() nos sacaría de la página.
+    function cerrar(retroceder) {
       visor.classList.remove('open');
       document.body.style.overflow = '';
       if (previo) previo.focus();
+      if (enHistorial && retroceder !== false) {
+        enHistorial = false;
+        try { history.back(); } catch (_) {}
+      } else {
+        enHistorial = false;
+      }
     }
 
+    addEventListener('popstate', function () {
+      if (visor.classList.contains('open')) cerrar(false);
+    });
+
     botones.forEach(function (b, i) { b.addEventListener('click', function () { abrir(i); }); });
-    visor.querySelector('.viewer-close').addEventListener('click', cerrar);
+    visor.querySelector('.viewer-close').addEventListener('click', function () { cerrar(); });
     visor.querySelector('.prev').addEventListener('click', function () { mostrar(idx - 1); });
     visor.querySelector('.next').addEventListener('click', function () { mostrar(idx + 1); });
     visor.addEventListener('click', function (e) { if (e.target === visor) cerrar(); });
