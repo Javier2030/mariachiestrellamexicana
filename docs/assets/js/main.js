@@ -50,6 +50,33 @@
     }, 3000);
   }
 
+  /* --- La tarjeta que se tiene enfrente se adelanta ---
+     En escritorio esto lo resuelve :hover. En el móvil no hay ratón, así que la
+     tarjeta que queda en la franja central de la pantalla se marca con .ahead y
+     el CSS la eleva. Solo una a la vez: si se encienden todas, no destaca ninguna. */
+  var tarjetas = [].slice.call(document.querySelectorAll('.price-card'));
+  if (tarjetas.length && 'IntersectionObserver' in window && !reduce) {
+    // Se decide por ancho, no por `hover`: la emulación de móvil de algunos
+    // navegadores informa `hover: hover` aunque no haya ratón. Por debajo de 900 px
+    // las tarjetas van apiladas y tiene sentido destacar la que se está mirando.
+    if (matchMedia('(max-width: 900px)').matches) {
+      var focoIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          en.target.classList.toggle('ahead', en.isIntersecting);
+        });
+      }, { rootMargin: '-42% 0px -42% 0px', threshold: 0 });
+      tarjetas.forEach(function (c) { focoIO.observe(c); });
+    }
+  }
+
+  /* --- Sombra del encabezado al bajar --- */
+  var hdr = document.querySelector('.hdr');
+  if (hdr) {
+    var marcarScroll = function () { hdr.classList.toggle('scrolled', scrollY > 12); };
+    marcarScroll();
+    addEventListener('scroll', marcarScroll, { passive: true });
+  }
+
   /* --- Fecha mínima = hoy (zona horaria de Bogotá) --- */
   var dateInput = document.getElementById('q-date');
   if (dateInput) {

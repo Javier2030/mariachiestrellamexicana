@@ -30,6 +30,8 @@
   --r: 14px;
   --shadow: 0 18px 46px -20px rgba(112, 22, 72, .32);
   --t: .22s cubic-bezier(.4, 0, .2, 1);
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --glow: 0 22px 48px -20px rgba(164, 22, 95, .45);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -77,7 +79,9 @@ p { margin: 0 0 1.1em; }
   backdrop-filter: saturate(160%) blur(14px);
   -webkit-backdrop-filter: saturate(160%) blur(14px);
   border-bottom: 1px solid var(--line);
+  transition: box-shadow .3s var(--ease-out), background .3s var(--ease-out);
 }
+.hdr.scrolled { box-shadow: 0 10px 30px -18px rgba(112, 22, 72, .5); background: rgba(251, 239, 246, .96); }
 .hdr .wrap { display: flex; align-items: center; gap: 20px; min-height: 68px; }
 .brand { display: flex; align-items: center; gap: 11px; font-family: var(--ff-head); font-size: 1.12rem; color: var(--paper); font-weight: 700; letter-spacing: .01em; }
 .brand:hover { text-decoration: none; }
@@ -100,6 +104,14 @@ p { margin: 0 0 1.1em; }
   font-weight: 700; font-size: .97rem; letter-spacing: .01em;
   cursor: pointer; transition: var(--t); white-space: nowrap; font-family: inherit;
 }
+.btn { position: relative; overflow: hidden; }
+/* Destello que cruza el botón al pasar por encima: 200 bytes de CSS, cero JS. */
+.btn::after {
+  content: ""; position: absolute; top: 0; left: -60%; width: 45%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .45), transparent);
+  transform: skewX(-18deg); transition: left .6s var(--ease-out); pointer-events: none;
+}
+.btn:hover::after { left: 115%; }
 .btn:hover { text-decoration: none; transform: translateY(-2px); }
 .btn:active { transform: translateY(0); }
 .btn-gold { background: linear-gradient(160deg, #d42a86, var(--gold)); color: #fff; box-shadow: 0 10px 26px -10px rgba(164, 22, 95, .5); }
@@ -204,7 +216,10 @@ p { margin: 0 0 1.1em; }
   border: 1px solid var(--line); border-radius: var(--r);
   padding: 28px; transition: var(--t);
 }
-.card:hover { border-color: rgba(164, 22, 95, .45); transform: translateY(-4px); box-shadow: var(--shadow); }
+.card { border-radius: 16px; }
+.card:hover { border-color: rgba(164, 22, 95, .45); transform: translateY(-5px); box-shadow: var(--glow); }
+.card:hover .ico { background: linear-gradient(140deg, #d42a86, var(--gold)); color: #fff; transform: rotate(-6deg) scale(1.06); }
+.card .ico { transition: var(--t); }
 .card h3 { color: var(--paper); }
 .card p { margin-bottom: 0; font-size: .94rem; color: var(--paper-dim); }
 .card .ico {
@@ -212,16 +227,67 @@ p { margin: 0 0 1.1em; }
   background: rgba(212, 42, 134, .1); border: 1px solid var(--line); color: var(--gold); margin-bottom: 16px;
 }
 
-/* --- Precios --- */
-.price-card { display: flex; flex-direction: column; position: relative; }
-.price-card.pop { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), var(--shadow); }
+/* --- Precios ---
+   El borde es un gradiente real, no un color plano: se pinta en la caja del borde
+   con dos capas de fondo (padding-box para el relleno, border-box para el trazo).
+   Es la única forma de tener degradado en el borde sin un pseudo-elemento extra. */
+.price-card {
+  display: flex; flex-direction: column; position: relative;
+  border: 1.5px solid transparent; border-radius: 18px;
+  background-image:
+    linear-gradient(168deg, #ffffff, #fdf1f8),
+    linear-gradient(150deg, rgba(212, 42, 134, .55), rgba(184, 134, 11, .5) 55%, rgba(212, 42, 134, .3));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out), background-image .45s var(--ease-out);
+  will-change: transform;
+}
+.price-card.pop {
+  background-image:
+    linear-gradient(168deg, #ffffff, #fef6fa),
+    linear-gradient(150deg, var(--gold), #e8b53f 55%, var(--gold));
+  box-shadow: var(--glow);
+}
+
+/* Al pasar por delante: la tarjeta se adelanta. En escritorio lo dispara el ratón;
+   en el móvil, donde no hay hover, lo marca el observador cuando la tarjeta queda
+   en el centro de la pantalla (.ahead). */
+.price-card:hover {
+  transform: translateY(-10px) scale(1.025);
+  box-shadow: 0 0 0 4px rgba(212, 42, 134, .1), 0 30px 56px -24px rgba(112, 22, 72, .55), 0 0 34px -10px rgba(212, 42, 134, .45);
+  z-index: 2;
+}
+.price-card:hover .price { transform: scale(1.04); }
+.price-card:hover .btn { transform: translateY(-2px); }
+
+/* El realce por «estar enfrente» es solo para pantallas apiladas: en escritorio las
+   cinco tarjetas caben a la vez en la franja central y encenderlas todas no destaca
+   ninguna. Ahí manda el ratón. */
+@media (max-width: 900px) {
+  .price-card.ahead {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 0 0 4px rgba(212, 42, 134, .1), 0 30px 56px -24px rgba(112, 22, 72, .55), 0 0 34px -10px rgba(212, 42, 134, .45);
+    z-index: 2;
+  }
+  .price-card.ahead .price { transform: scale(1.04); }
+}
+@media (hover: none) {
+  .price-card:hover { transform: none; box-shadow: none; }
+  .price-card.pop:hover { box-shadow: var(--glow); }
+}
 .price-card .tag {
   position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-  background: var(--gold); color: #fff; font-size: .68rem; font-weight: 800;
-  letter-spacing: .12em; text-transform: uppercase; padding: 5px 14px; border-radius: 999px; white-space: nowrap;
+  background: linear-gradient(135deg, #d42a86, var(--gold)); color: #fff; font-size: .68rem; font-weight: 800;
+  letter-spacing: .12em; text-transform: uppercase; padding: 5px 15px; border-radius: 999px; white-space: nowrap;
+  box-shadow: 0 6px 16px -6px rgba(164, 22, 95, .7);
 }
 /* line-height 1 recorta el signo $ de Playfair, cuyas barras sobresalen del alto de x. */
-.price { font-family: var(--ff-head); font-size: 2.3rem; color: var(--gold); line-height: 1.2; margin: 4px 0 2px; }
+.price {
+  font-family: var(--ff-head); font-size: 2.3rem; line-height: 1.2; margin: 4px 0 2px;
+  background: linear-gradient(120deg, #d42a86, #a4165f 60%, #b8860b);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  transition: transform .45s var(--ease-out); transform-origin: left center;
+}
 .price small { font-size: .8rem; font-family: var(--ff-body); color: var(--muted); font-weight: 400; }
 .price-card ul { list-style: none; padding: 0; margin: 20px 0 26px; flex: 1; }
 .price-card li { position: relative; padding-left: 26px; margin-bottom: 11px; font-size: .93rem; color: var(--paper-dim); }
@@ -250,7 +316,7 @@ p { margin: 0 0 1.1em; }
   cursor: zoom-in; transition: var(--t); aspect-ratio: 4 / 3;
 }
 .gal-btn img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s cubic-bezier(.4,0,.2,1); }
-.gal-btn:hover { border-color: var(--gold); }
+.gal-btn:hover { border-color: var(--gold); box-shadow: var(--glow); transform: translateY(-3px); }
 .gal-btn:hover img { transform: scale(1.05); }
 .gal-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
@@ -289,6 +355,8 @@ p { margin: 0 0 1.1em; }
   background: rgba(255, 255, 255, .72); color: var(--paper-dim); font-size: .89rem; transition: var(--t);
 }
 .zones span.hi { border-color: rgba(164, 22, 95, .55); color: var(--gold); background: rgba(212, 42, 134, .1); font-weight: 700; }
+.zones span { transition: var(--t); }
+.zones span:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
 .zones a:hover { border-color: var(--gold); color: var(--gold); text-decoration: none; background: rgba(212, 42, 134, .1); }
 
 /* --- FAQ --- */
@@ -356,13 +424,25 @@ p { margin: 0 0 1.1em; }
 /* --- Animación de entrada ---
    Por defecto el contenido es visible. El JS marca `.pre` justo antes de observar,
    así que si el script falla o está bloqueado nunca queda contenido invisible. */
-.reveal { transition: opacity .55s ease, transform .55s ease; }
-.reveal.pre { opacity: 0; transform: translateY(22px); }
+.reveal { transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
+.reveal.pre { opacity: 0; transform: translateY(26px); }
+/* Escalonado: las tarjetas de una rejilla no entran todas a la vez. */
+.reveal.pre > *:nth-child(1) { transition-delay: 0s; }
+.reveal > * { transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
+.reveal.pre > * { opacity: 0; transform: translateY(14px); }
+.reveal.in > *:nth-child(1) { transition-delay: .04s; }
+.reveal.in > *:nth-child(2) { transition-delay: .12s; }
+.reveal.in > *:nth-child(3) { transition-delay: .2s; }
+.reveal.in > *:nth-child(4) { transition-delay: .28s; }
+.reveal.in > *:nth-child(5) { transition-delay: .36s; }
+.reveal.in > *:nth-child(6) { transition-delay: .44s; }
+.reveal.in > * { opacity: 1; transform: none; }
 .reveal.in { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-  .reveal { opacity: 1; transform: none; }
+  .reveal, .reveal > * { opacity: 1 !important; transform: none !important; }
+  .price-card:hover, .price-card.ahead { transform: none; }
   html { scroll-behavior: auto; }
 }
 
