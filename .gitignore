@@ -1,0 +1,6 @@
+# Repo público: SOLO el sitio publicado. Nada de generadores, campañas ni notas internas.
+*
+!docs/
+!docs/**
+!.gitignore
+!LICENSE

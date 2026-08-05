@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /ads-lp/
+Disallow: /api/
+
+Sitemap: https://mariachiestrellamexicana.com/sitemap.xml
