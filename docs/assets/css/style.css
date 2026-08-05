@@ -23,7 +23,7 @@
   --muted: #75566a;
   --line: rgba(164, 22, 95, .18);
 
-  --ff-head: "Playfair Display", "Iowan Old Style", Georgia, serif;
+  --ff-head: "Playfair Display", "Times New Roman", Times, serif;
   --ff-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   --w: 1140px;
@@ -195,7 +195,7 @@ p { margin: 0 0 1.1em; }
 .stats { border-block: 1px solid var(--line); background: var(--ink-2); }
 .stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; padding-block: 38px; }
 .stat { text-align: center; }
-.stat b { display: block; font-family: var(--ff-body); font-weight: 800; font-variant-numeric: lining-nums tabular-nums; font-size: clamp(1.7rem, 3.2vw, 2.3rem); color: var(--gold); line-height: 1.1; letter-spacing: -.01em; }
+.stat b { display: block; font-family: var(--ff-head); font-weight: 700; font-variant-numeric: lining-nums tabular-nums; font-feature-settings: "lnum" 1, "tnum" 1; font-size: clamp(1.8rem, 3.4vw, 2.5rem); color: var(--gold); line-height: 1.1; letter-spacing: -.01em; }
 .stat span { font-size: .82rem; color: var(--muted); letter-spacing: .04em; }
 
 /* --- Rejillas genéricas --- */
@@ -208,7 +208,7 @@ p { margin: 0 0 1.1em; }
 .g-4 { grid-template-columns: repeat(4, 1fr); }
 .g-5 { grid-template-columns: repeat(5, 1fr); gap: 16px; }
 .g-5 .price-card { padding: 26px 20px; }
-.g-5 .price { font-size: 1.7rem; }
+.g-5 .price { font-size: 1.95rem; }
 .g-5 .price-card li { font-size: .87rem; margin-bottom: 9px; }
 
 .card {
@@ -281,13 +281,15 @@ p { margin: 0 0 1.1em; }
   letter-spacing: .12em; text-transform: uppercase; padding: 5px 15px; border-radius: 999px; white-space: nowrap;
   box-shadow: 0 6px 16px -6px rgba(164, 22, 95, .7);
 }
-/* Las cifras van en la sans, no en la serif: Playfair —y su respaldo Georgia— usan
-   números de estilo antiguo, con unos dígitos altos y otros bajos, que en un precio
-   se leen desiguales. `lining-nums` los iguala en altura y `tabular-nums` los alinea. */
+/* El precio va en la misma serif del título. Lo que se fuerza es la FORMA de las
+   cifras: `lining-nums` las deja todas a la misma altura y `tabular-nums` las alinea.
+   Sin esto, la serif las dibuja al estilo antiguo —unas altas y otras bajas— y un
+   precio se lee torcido. El respaldo de la familia también usa cifras de caja alta. */
 .price {
-  font-family: var(--ff-body); font-weight: 800; letter-spacing: -.015em;
+  font-family: var(--ff-head); font-weight: 700; letter-spacing: -.005em;
   font-variant-numeric: lining-nums tabular-nums;
-  font-size: 2.1rem; line-height: 1.25; margin: 4px 0 2px;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  font-size: 2.4rem; line-height: 1.2; margin: 4px 0 2px;
   color: var(--gold);
   transition: transform .45s var(--ease-out); transform-origin: left center;
 }
