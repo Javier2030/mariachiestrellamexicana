@@ -273,10 +273,11 @@ p { margin: 0 0 1.1em; }
 
 /* --- Zonas --- */
 .zones { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-.zones a {
+.zones a, .zones span {
   padding: 9px 17px; border-radius: 999px; border: 1px solid var(--line);
   background: rgba(255, 255, 255, .03); color: var(--paper-dim); font-size: .89rem; transition: var(--t);
 }
+.zones span.hi { border-color: rgba(224, 176, 74, .5); color: var(--gold-2); background: rgba(224, 176, 74, .07); }
 .zones a:hover { border-color: var(--gold); color: var(--gold-2); text-decoration: none; background: rgba(224, 176, 74, .08); }
 
 /* --- FAQ --- */
