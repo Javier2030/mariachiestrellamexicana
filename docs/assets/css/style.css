@@ -195,7 +195,7 @@ p { margin: 0 0 1.1em; }
 .stats { border-block: 1px solid var(--line); background: var(--ink-2); }
 .stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; padding-block: 38px; }
 .stat { text-align: center; }
-.stat b { display: block; font-family: var(--ff-head); font-size: clamp(1.8rem, 3.4vw, 2.5rem); color: var(--gold); line-height: 1; }
+.stat b { display: block; font-family: var(--ff-body); font-weight: 800; font-variant-numeric: lining-nums tabular-nums; font-size: clamp(1.7rem, 3.2vw, 2.3rem); color: var(--gold); line-height: 1.1; letter-spacing: -.01em; }
 .stat span { font-size: .82rem; color: var(--muted); letter-spacing: .04em; }
 
 /* --- Rejillas genéricas --- */
@@ -208,7 +208,7 @@ p { margin: 0 0 1.1em; }
 .g-4 { grid-template-columns: repeat(4, 1fr); }
 .g-5 { grid-template-columns: repeat(5, 1fr); gap: 16px; }
 .g-5 .price-card { padding: 26px 20px; }
-.g-5 .price { font-size: 1.85rem; }
+.g-5 .price { font-size: 1.7rem; }
 .g-5 .price-card li { font-size: .87rem; margin-bottom: 9px; }
 
 .card {
@@ -220,7 +220,7 @@ p { margin: 0 0 1.1em; }
 .card:hover { border-color: rgba(164, 22, 95, .45); transform: translateY(-5px); box-shadow: var(--glow); }
 .card:hover .ico { background: linear-gradient(140deg, #d42a86, var(--gold)); color: #fff; transform: rotate(-6deg) scale(1.06); }
 .card .ico { transition: var(--t); }
-.card h3 { color: var(--paper); }
+.card h3 { color: var(--paper); font-variant-numeric: lining-nums; }
 .card p { margin-bottom: 0; font-size: .94rem; color: var(--paper-dim); }
 .card .ico {
   width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
@@ -281,11 +281,14 @@ p { margin: 0 0 1.1em; }
   letter-spacing: .12em; text-transform: uppercase; padding: 5px 15px; border-radius: 999px; white-space: nowrap;
   box-shadow: 0 6px 16px -6px rgba(164, 22, 95, .7);
 }
-/* line-height 1 recorta el signo $ de Playfair, cuyas barras sobresalen del alto de x. */
+/* Las cifras van en la sans, no en la serif: Playfair —y su respaldo Georgia— usan
+   números de estilo antiguo, con unos dígitos altos y otros bajos, que en un precio
+   se leen desiguales. `lining-nums` los iguala en altura y `tabular-nums` los alinea. */
 .price {
-  font-family: var(--ff-head); font-size: 2.3rem; line-height: 1.2; margin: 4px 0 2px;
-  background: linear-gradient(120deg, #d42a86, #a4165f 60%, #b8860b);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-family: var(--ff-body); font-weight: 800; letter-spacing: -.015em;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-size: 2.1rem; line-height: 1.25; margin: 4px 0 2px;
+  color: var(--gold);
   transition: transform .45s var(--ease-out); transform-origin: left center;
 }
 .price small { font-size: .8rem; font-family: var(--ff-body); color: var(--muted); font-weight: 400; }
@@ -520,4 +523,4 @@ p { margin: 0 0 1.1em; }
 
 /* El signo de moneda va en la tipografía del cuerpo y algo más pequeño: el `$` de
    Playfair a 2.3rem tiene barras que sobresalen y ensucian la cifra. */
-.price .cur { font-family: var(--ff-body); font-size: .58em; font-weight: 600; vertical-align: .22em; margin-right: .05em; }
+.price .cur { font-size: .58em; font-weight: 700; vertical-align: .18em; margin-right: .07em; color: #c0206f; }
