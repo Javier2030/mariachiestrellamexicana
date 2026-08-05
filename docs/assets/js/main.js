@@ -174,12 +174,64 @@
     var vCap = visor.querySelector('figcaption');
     var idx = 0, previo = null;
 
+    // El visor cargaba el JPG a tamaño completo en cada cambio de foto y sin avisar:
+    // entre una y otra quedaba un hueco de segundos. Ahora (1) pide el WebP, que pesa
+    // un cuarto menos, (2) enseña al instante la miniatura que la galería ya tiene en
+    // caché mientras llega la grande, y (3) va precargando las vecinas.
+    var soportaWebp = (function () {
+      try { return document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0; }
+      catch (_) { return false; }
+    })();
+
+    function fuente(b) {
+      var f = b.getAttribute('data-full');
+      return soportaWebp ? f.replace(/\.jpg$/i, '.webp') : f;
+    }
+    function miniatura(b) {
+      var im = b.querySelector('img');
+      return im ? (im.currentSrc || im.src) : '';
+    }
+    function precargar(i) {
+      var b = botones[(i + botones.length) % botones.length];
+      if (!b || b.dataset.pre) return;
+      b.dataset.pre = '1';
+      var im = new Image();
+      im.src = fuente(b);
+    }
+
     function mostrar(i) {
       idx = (i + botones.length) % botones.length;
       var b = botones[idx];
-      vImg.src = b.getAttribute('data-full');
+      var destino = fuente(b);
+
       vImg.alt = b.getAttribute('data-alt');
       vCap.textContent = b.getAttribute('data-alt');
+
+      var grande = new Image();
+      var puesta = false;
+      var pintar = function () {
+        if (puesta) return;
+        puesta = true;
+        vImg.src = grande.src;
+        visor.classList.remove('cargando');
+      };
+
+      grande.onload = pintar;
+      grande.onerror = function () {           // si el WebP fallara, el JPG de siempre
+        visor.classList.remove('cargando');
+        vImg.src = b.getAttribute('data-full');
+      };
+      grande.src = destino;
+
+      if (grande.complete) {                   // ya estaba en caché: sin parpadeo
+        pintar();
+      } else {
+        var mini = miniatura(b);               // relleno inmediato, ya descargado
+        if (mini) { vImg.src = mini; visor.classList.add('cargando'); }
+      }
+
+      precargar(idx + 1);
+      precargar(idx - 1);
     }
     // Abrir una foto mete una entrada en el historial. Así el botón «atrás» del
     // teléfono cierra la foto y devuelve a la página, en vez de sacar al visitante

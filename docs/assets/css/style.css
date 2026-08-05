@@ -327,7 +327,16 @@ p { margin: 0 0 1.1em; }
   background: rgba(43, 21, 36, .94); backdrop-filter: blur(6px);
 }
 .viewer.open { display: grid; }
-.viewer img { max-width: min(94vw, 1100px); max-height: 84vh; border-radius: 10px; box-shadow: var(--shadow); }
+.viewer img { max-width: min(94vw, 1100px); max-height: 84vh; border-radius: 10px; box-shadow: var(--shadow); transition: filter .35s ease; }
+/* Mientras llega la foto grande se ve la miniatura ampliada, desenfocada a propósito
+   para que se lea como «cargando» y no como una foto de mala calidad. */
+.viewer.cargando img { filter: blur(12px) saturate(1.1); }
+.viewer.cargando figure::after {
+  content: ""; position: absolute; top: 50%; left: 50%; width: 34px; height: 34px; margin: -17px 0 0 -17px;
+  border: 3px solid rgba(255, 255, 255, .3); border-top-color: #fff; border-radius: 50%;
+  animation: girar .8s linear infinite;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
 .viewer figcaption { margin-top: 14px; text-align: center; font-size: .88rem; color: #f3dcea; max-width: 62ch; }
 .viewer-close, .viewer-nav {
   position: absolute; background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .32);
