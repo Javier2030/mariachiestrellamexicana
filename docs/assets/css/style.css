@@ -138,7 +138,24 @@ p { margin: 0 0 1.1em; }
   mask-image: linear-gradient(180deg, #000, transparent 78%);
   -webkit-mask-image: linear-gradient(180deg, #000, transparent 78%);
 }
-.hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: clamp(30px, 5vw, 62px); align-items: center; }
+.hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: clamp(30px, 5vw, 62px); align-items: start; }
+/* En pantalla grande la foto va bajo el titular, como en el móvil, pero acotada: si
+   se deja a su alto natural, el texto y los botones caen fuera de la primera vista y
+   el formulario queda flotando en un hueco. */
+@media (min-width: 961px) {
+  .hero-foto img { max-height: 320px; width: 100%; object-fit: cover; object-position: center 35%; }
+  .quote-card { position: sticky; top: 92px; }
+  /* En el móvil la foto va justo bajo el titular. En pantalla grande hay sitio de
+     sobra, así que primero van el texto y los botones —lo que convierte— y la foto
+     queda debajo, todo dentro de la primera vista. El orden del HTML no cambia. */
+  .hero-grid > div:first-child { display: flex; flex-direction: column; }
+  .hero-grid .eyebrow { order: 1; align-self: flex-start; }
+  .hero-grid h1 { order: 2; }
+  .hero-grid .lead { order: 3; }
+  .hero-grid .hero-cta { order: 4; margin-top: 22px; }
+  .hero-grid .hero-foto { order: 5; margin-top: 6px; }
+  .hero-grid .hero-trust { order: 6; margin-top: 18px; }
+}
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 9px;
