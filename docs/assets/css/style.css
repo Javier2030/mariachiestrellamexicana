@@ -224,13 +224,21 @@ p { margin: 0 0 1.1em; }
 .g-3 { grid-template-columns: repeat(3, 1fr); }
 .g-4 { grid-template-columns: repeat(4, 1fr); }
 .g-5 { grid-template-columns: repeat(5, 1fr); gap: 16px; }
-.g-5 .price-card { padding: 26px 20px; }
-.g-5 .price { font-size: clamp(1.35rem, 1.1vw + .55rem, 1.75rem); }
+.g-5 .price-card { padding: 18px 15px 16px; }
+
 .g-5 .price small { font-size: .68rem; }
 /* «10 canciones · 5 integrantes» es la línea más larga: a este cuerpo entra de una
    sola vez en las cinco tarjetas y sus listas arrancan a la misma altura. */
-.g-5 .price-card > span.muted { font-size: .78rem; white-space: nowrap; }
-.g-5 .price-card li { font-size: .87rem; margin-bottom: 9px; }
+.g-5 .price-card > span.muted { white-space: nowrap; }
+/* Texto un 40 % más grande sin que la tarjeta crezca: lo que sube en cuerpo de letra
+   se recupera apretando interlineado, separación entre viñetas y márgenes. */
+.g-5 .price-card li { font-size: 1.22rem; line-height: 1.24; margin-bottom: 3px; padding-left: 23px; }
+.g-5 .price-card li::before { top: .3em; width: 16px; height: 16px; }
+.g-5 .price-card ul { margin: 9px 0 10px; }
+.g-5 .price-card h3 { font-size: 1.62rem; margin-bottom: 2px; }
+.g-5 .price { font-size: 1.9rem; margin: 2px 0 0; }
+.g-5 .price-card > span.muted { font-size: 1rem; }
+.g-5 .price-card .btn { padding: 10px 16px; font-size: 1rem; }
 
 .card {
   background: linear-gradient(165deg, #ffffff, #fdf1f8);
