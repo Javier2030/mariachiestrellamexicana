@@ -208,7 +208,11 @@ p { margin: 0 0 1.1em; }
 .g-4 { grid-template-columns: repeat(4, 1fr); }
 .g-5 { grid-template-columns: repeat(5, 1fr); gap: 16px; }
 .g-5 .price-card { padding: 26px 20px; }
-.g-5 .price { font-size: 1.95rem; }
+.g-5 .price { font-size: clamp(1.35rem, 1.1vw + .55rem, 1.75rem); }
+.g-5 .price small { font-size: .68rem; }
+/* «10 canciones · 5 integrantes» es la línea más larga: a este cuerpo entra de una
+   sola vez en las cinco tarjetas y sus listas arrancan a la misma altura. */
+.g-5 .price-card > span.muted { font-size: .78rem; white-space: nowrap; }
 .g-5 .price-card li { font-size: .87rem; margin-bottom: 9px; }
 
 .card {
@@ -290,6 +294,7 @@ p { margin: 0 0 1.1em; }
   font-variant-numeric: lining-nums tabular-nums;
   font-feature-settings: "lnum" 1, "tnum" 1;
   font-size: 2.4rem; line-height: 1.2; margin: 4px 0 2px;
+  white-space: nowrap;   /* el «COP» nunca debe caer a la línea de abajo */
   color: var(--gold);
   transition: transform .45s var(--ease-out); transform-origin: left center;
 }
