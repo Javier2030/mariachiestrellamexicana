@@ -224,6 +224,9 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
 /* --- Rejillas genéricas --- */
 /* El header es sticky: cualquier ancla debe frenar por debajo de él. */
 [id] { scroll-margin-top: 86px; }
+/* «Ver paquetes» debe dejar la PRIMERA TARJETA completa bajo el encabezado, no el
+   título de la sección: por eso el ancla está en la parrilla, con su propio margen. */
+#paquetes { scroll-margin-top: 106px; }
 
 .grid { display: grid; gap: 22px; }
 .g-2 { grid-template-columns: repeat(2, 1fr); }
