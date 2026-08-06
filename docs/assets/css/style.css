@@ -157,8 +157,14 @@ p { margin: 0 0 1.1em; }
   .hero-grid .hero-trust { order: 6; margin-top: 18px; }
 }
 
+/* Fila superior del hero: el botón a los paquetes y el distintivo, que ahora es un
+   enlace directo a WhatsApp con el mensaje ya escrito. */
+.hero-top { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 22px; }
+.hero-top .eyebrow { margin-bottom: 0; }
+a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: rgba(212, 42, 134, .16); transform: translateY(-1px); }
+
 .eyebrow {
-  display: inline-flex; align-items: center; gap: 9px;
+  display: inline-flex; align-items: center; gap: 9px; transition: var(--t);
   padding: 7px 15px; border-radius: 999px;
   border: 1px solid rgba(164, 22, 95, .28); background: rgba(212, 42, 134, .09);
   font-size: .74rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--gold);
