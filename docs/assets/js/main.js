@@ -296,6 +296,20 @@
     if (typeof window.gtag === 'function') window.gtag('event', event, params || {});
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({ event: event }, params || {}));
+    // Clarity: cada contacto queda como evento con nombre, y la página desde la que
+    // salió queda como etiqueta. Así se sabe QUÉ página genera cotizaciones, no solo
+    // cuántas visitas hubo.
+    if (typeof window.clarity === 'function') {
+      try {
+        window.clarity('event', event);
+        window.clarity('set', 'cta', (params && params.cta_id) || event);
+        window.clarity('set', 'pagina', location.pathname);
+        if (event === 'whatsapp_click' || event === 'llamada_click' || event === 'generate_lead') {
+          window.clarity('set', 'contacto', location.pathname);
+          window.clarity('upgrade', 'contacto');   // conserva la grabación de quien contacta
+        }
+      } catch (e) { /* la analítica nunca debe romper la página */ }
+    }
   }
   window.memTrack = track;
 
