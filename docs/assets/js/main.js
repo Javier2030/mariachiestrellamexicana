@@ -292,8 +292,20 @@
   }
 
   /* --- Seguimiento de conversiones --- */
+  // Etiquetas de conversión de Google Ads (cuenta 504-187-1223). Cada contacto real
+  // —WhatsApp, llamada o formulario— se reporta a Ads para que la puja aprenda de
+  // clientes, no de clics. Sin esto, Ads solo sabe cuánta gente entró.
+  var CONV = {
+    whatsapp_click: 'AW-18373505088/W6IbCMHR1d4cEMDglblE',
+    generate_lead:  'AW-18373505088/W6IbCMHR1d4cEMDglblE',
+    llamada_click:  'AW-18373505088/QNFCCMTR1d4cEMDglblE'
+  };
+
   function track(event, params) {
-    if (typeof window.gtag === 'function') window.gtag('event', event, params || {});
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', event, params || {});
+      if (CONV[event]) window.gtag('event', 'conversion', { send_to: CONV[event] });
+    }
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({ event: event }, params || {}));
     // Clarity: cada contacto queda como evento con nombre, y la página desde la que
