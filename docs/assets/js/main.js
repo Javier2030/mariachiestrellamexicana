@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  var WA = '573021084267';
+  var WA = '573219760656';
 
   /* --- Menú móvil --- */
   var burger = document.getElementById('burger');
@@ -90,7 +90,7 @@
   if (form) {
     var phoneField = document.getElementById('q-phone');
 
-    // Formato visual del celular colombiano: 302 108 4267
+    // Formato visual del celular colombiano: 321 976 0656
     if (phoneField) {
       phoneField.addEventListener('input', function () {
         var d = this.value.replace(/\D/g, '').slice(0, 10);
