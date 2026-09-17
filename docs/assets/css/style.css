@@ -91,7 +91,7 @@ p { margin: 0 0 1.1em; }
 .nav { margin-left: auto; display: flex; align-items: center; gap: 26px; }
 /* `:not(.btn)` es necesario: si no, esta regla gana por especificidad al color
    del botón dorado y deja el teléfono ilegible sobre el fondo dorado. */
-.nav a:not(.btn) { color: var(--paper-dim); font-size: .92rem; font-weight: 500; }
+.nav a:not(.btn) { color: var(--paper-dim); font-size: .92rem; font-weight: 500; white-space: nowrap; }
 .nav a:not(.btn):hover { color: var(--gold-2); text-decoration: none; }
 
 .burger { display: none; background: none; border: 0; padding: 8px; cursor: pointer; }

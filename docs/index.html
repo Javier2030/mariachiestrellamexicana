@@ -31,7 +31,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": ["LocalBusiness", "MusicGroup"],
+      "@type": [
+        "LocalBusiness",
+        "MusicGroup"
+      ],
       "@id": "https://mariachiestrellamexicana.com/#business",
       "name": "Mariachi Estrella Mexicana",
       "url": "https://mariachiestrellamexicana.com/",
@@ -42,10 +45,20 @@
       ],
       "telephone": "+573219760656",
       "priceRange": "$$",
-      "genre": ["Mariachi", "Ranchera", "Bolero"],
+      "genre": [
+        "Mariachi",
+        "Ranchera",
+        "Bolero"
+      ],
       "areaServed": [
-        { "@type": "City", "name": "Bogotá" },
-        { "@type": "City", "name": "Soacha" }
+        {
+          "@type": "City",
+          "name": "Bogotá"
+        },
+        {
+          "@type": "City",
+          "name": "Soacha"
+        }
       ],
       "address": {
         "@type": "PostalAddress",
@@ -53,11 +66,22 @@
         "addressRegion": "Cundinamarca",
         "addressCountry": "CO"
       },
-      "openingHoursSpecification": [{
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-        "opens": "00:00", "closes": "23:59"
-      }],
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      ],
       "sameAs": [
         "https://www.tiktok.com/@mariachiestrellamexicanh"
       ]
@@ -68,19 +92,61 @@
       "url": "https://mariachiestrellamexicana.com/",
       "name": "Mariachi Estrella Mexicana",
       "inLanguage": "es-CO",
-      "publisher": { "@id": "https://mariachiestrellamexicana.com/#business" }
+      "publisher": {
+        "@id": "https://mariachiestrellamexicana.com/#business"
+      }
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "¿Cuánto cuesta un mariachi en Bogotá?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Desde $180.000 COP. Ese es el Paquete 1: siete canciones con cinco músicos, voz femenina y voz masculina, y homenaje a la persona festejada, con transporte incluido en toda Bogotá y en Soacha. Los cinco paquetes van de $180.000 a $370.000 según cuántas canciones y qué detalles que se entregan." } },
-        { "@type": "Question", "name": "¿Atienden de madrugada?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sí. Operamos las 24 horas, los 365 días del año, incluidos festivos. El valor se confirma completo antes de reservar, con la hora ya tenida en cuenta." } },
-        { "@type": "Question", "name": "¿Con cuánta anticipación debo reservar?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Lo ideal es 24 horas. Aun así atendemos solicitudes con 2 a 3 horas de anticipación según disponibilidad del grupo." } },
-        { "@type": "Question", "name": "¿Cuántos músicos incluye el grupo?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Cinco músicos profesionales: trompeta, guitarrón, vihuela y dos voces, todos con traje de charro completo. El grupo lleva voz femenina y voz masculina." } }
+        {
+          "@type": "Question",
+          "name": "¿Cuánto cuesta un mariachi en Bogotá?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Desde $180.000 COP. Ese es el Paquete 1: siete canciones con el grupo completo de cinco, ambas voces y el homenaje a la persona festejada, en toda Bogotá y en Soacha, con transporte incluido. De ahí suben hasta $370.000 según cuántas canciones y qué detalles que se entreguen —flores, champaña, recordatorio, chocolates—. Los cinco paquetes están publicados y el valor cerrado se lo confirmamos por WhatsApp antes de que reserve."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Atienden de madrugada?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, las 24 horas, los 365 días del año, festivos incluidos. La hora clásica de serenata está entre las 10:30 y las 11:30 de la noche, pero salimos a la que usted necesite. El valor se le confirma completo antes de reservar, con la hora ya tenida en cuenta."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Con cuánta anticipación debo reservar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Lo ideal son 24 horas. Aun así resolvemos solicitudes con 2 a 3 horas de anticipación cuando hay grupo libre. En fechas críticas —14 de febrero, Día de la Madre y 24 y 31 de diciembre— reserve con una semana o más: esos días se llena la agenda de toda la ciudad."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuántos músicos son y qué instrumentos traen?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Cinco músicos profesionales en todos los paquetes: trompeta, guitarrón y vihuela, con traje de charro completo. El grupo lleva voz femenina y voz masculina, que es lo que permite hacer bien tanto el repertorio de Rocío Dúrcal como el de Vicente Fernández."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo se paga?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Escriba por WhatsApp indicando fecha, hora y dirección: le confirmamos disponibilidad, el valor total del paquete y las formas de pago aceptadas en ese mismo mensaje. Lo que se acuerda ahí es lo que se paga, sin ajustes al llegar."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puedo pedir canciones específicas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, y es lo recomendable. Envíe la lista por WhatsApp al reservar. Nuestro repertorio cubre ranchera, bolero, huapango, corrido y música colombiana. Si es una canción poco común, avísenos con un día de anticipación para prepararla."
+          }
+        }
       ]
     }
   ]
@@ -102,7 +168,14 @@ gtag('js',new Date());gtag('config','AW-18373505088');</script>
   <div class="wrap">
     <a class="brand" href="/">
       <svg class="star" viewBox="0 0 24 24" fill="#c0206f" aria-hidden="true"><path d="M12 1.6l3.1 6.6 7 1-5.1 5.1 1.3 7.1-6.3-3.4-6.3 3.4 1.3-7.1L1.9 9.2l7-1z"/></svg>
-      <span>Mariachi Estrella Mexicana<small>Bogotá y Soacha · a toda hora Eventos Serenatas Tarifas Galería</small></span></a><nav class="nav" id="nav"><a href="/mariachis-bogota/"></a><a href="/serenatas-bogota/"></a><a href="/precios/"></a><a href="#galeria"></a>
+      <span>Mariachi Estrella Mexicana<small>Bogotá y Soacha · a toda hora</small></span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="/mariachis-para-bodas-bogota/">Bodas</a>
+      <a href="/mariachis-para-quince-anos-bogota/">Quince años</a>
+      <a href="/mariachis-para-empresas-bogota/">Empresas</a>
+      <a href="/serenatas-bogota/">Serenatas</a>
+      <a href="/precios/">Tarifas</a>
       <a class="btn btn-gold btn-sm" href="tel:+573219760656" data-cta="header-call">321 976 0656</a>
     </nav>
     <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
@@ -190,27 +263,27 @@ gtag('js',new Date());gtag('config','AW-18373505088');</script>
   <div class="wrap">
     <div class="center" style="max-width:720px;margin-inline:auto">
       <h2>Para cada ocasión que merece música en vivo</h2>
-      <p class="lead muted">Adaptamos formato, repertorio y duración. Usted dice qué se celebra; nosotros ponemos el resto.</p>
+      <p class="lead muted">Adaptamos formato, repertorio y duración. Usted dice qué se celebra; nosotros ponemos el resto. Si la fiesta va para largo, existe el <a href="/mariachi-por-hora-bogota/">mariachi por horas</a>.</p>
     </div>
     <div class="grid g-3 svc reveal" style="margin-top:44px">
       <article class="card">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 10-7.8 7.8l8.8 8.8 8.8-8.8a5.5 5.5 0 000-7.8z"/></svg></div>
-        <h3>Serenatas de amor</h3>
+        <h3><a href="/serenata-de-amor-bogota/" style="color:inherit">Serenatas y pedidas de mano</a></h3>
         <p>El clásico de las 11 de la noche bajo el balcón. Siete canciones en el paquete base, entrada con «Las Mañanitas» o la que usted elija, y coordinación discreta para que sea sorpresa de verdad.</p>
       </article>
       <article class="card">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 10v10H4V10M2 6h20v4H2zM12 20V6M12 6H7.5a2.5 2.5 0 010-5C11 1 12 6 12 6zM12 6h4.5a2.5 2.5 0 000-5C13 1 12 6 12 6z"/></svg></div>
-        <h3>Cumpleaños y aniversarios</h3>
+        <h3><a href="/serenata-de-cumpleanos-bogota/" style="color:inherit">Cumpleaños y aniversarios</a></h3>
         <p>Llegamos justo cuando sale el pastel. Repertorio armado con las canciones del homenajeado y participación del público incluida.</p>
       </article>
       <article class="card">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg></div>
-        <h3>Matrimonios</h3>
+        <h3><a href="/mariachis-para-bodas-bogota/" style="color:inherit">Matrimonios</a></h3>
         <p>Entrada de novios, brindis y hora loca. Ensayamos la canción de la primera pieza con anticipación y coordinamos con el equipo de sonido del salón.</p>
       </article>
       <article class="card">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div>
-        <h3>Empresas y activaciones</h3>
+        <h3><a href="/mariachis-para-empresas-bogota/" style="color:inherit">Empresas y activaciones</a></h3>
         <p>Fiestas de fin de año, lanzamientos y ferias. Coordinamos el ingreso a edificios corporativos y centros comerciales, y entregamos los soportes de pago que pida su área administrativa.</p>
       </article>
       <article class="card">
@@ -220,8 +293,8 @@ gtag('js',new Date());gtag('config','AW-18373505088');</script>
       </article>
       <article class="card">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
-        <h3>Grados y despedidas</h3>
-        <p>Grados, despedidas de soltera y bienvenidas en el aeropuerto. Llegamos al punto exacto y a la hora exacta, incluso en zonas de acceso restringido.</p>
+        <h3><a href="/mariachis-para-quince-anos-bogota/" style="color:inherit">Quince años y grados</a></h3>
+        <p>Entrada de la quinceañera y fiesta; también grados, despedidas de soltera y bienvenidas en el aeropuerto, a la hora exacta.</p>
       </article>
     </div>
   </div>
@@ -517,17 +590,23 @@ gtag('js',new Date());gtag('config','AW-18373505088');</script>
       <div>
         <h4>Servicios</h4>
         <ul>
+          <li><a href="/mariachis-para-bodas-bogota/">Mariachi para bodas</a></li>
+          <li><a href="/mariachis-para-quince-anos-bogota/">Quince años</a></li>
+          <li><a href="/mariachis-para-empresas-bogota/">Fiestas de empresa</a></li>
+          <li><a href="/serenata-de-amor-bogota/">Pedida de mano</a></li>
+          <li><a href="/mariachis-dia-de-la-madre-bogota/">Día de la Madre</a></li>
+          <li><a href="/serenata-de-cumpleanos-bogota/">Cumpleaños</a></li>
+          <li><a href="/mariachi-por-hora-bogota/">Mariachi por horas</a></li>
           <li><a href="/serenatas-bogota/">Serenatas</a></li>
           <li><a href="/mariachis-bogota/">Mariachis Bogotá</a></li>
           <li><a href="/precios/">Precios</a></li>
-          <li><a href="/#servicios">Eventos corporativos</a></li>
         </ul>
       </div>
       <div>
         <h4>Cobertura</h4>
         <ul>
-          <li>Las 20 localidades de Bogotá</li>
-          <li>Municipio de Soacha</li>
+          <li><a href="/mariachis-bogota/">Las 20 localidades de Bogotá</a></li>
+          <li><a href="/zonas/soacha/">Municipio de Soacha</a></li>
           <li>Mismo precio en toda el área</li>
           <li>Transporte incluido</li>
         </ul>
