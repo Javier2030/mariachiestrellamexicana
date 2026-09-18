@@ -684,3 +684,19 @@ h2 { font-size: clamp(1.7rem, 1rem + 2.4vw, 2.7rem); letter-spacing: -.02em; }
   @media (max-width: 720px) { .nav { background: var(--ink-2); } }
   img:not(.no-dim) { filter: saturate(.94) brightness(.94); }
 }
+
+
+/* --- Paquete por hora: banda ancha bajo las cinco tarjetas de serenata --- */
+.price-hora {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(16px, 3vw, 34px);
+  align-items: center; margin-top: 20px; padding: clamp(20px, 3vw, 30px);
+}
+.price-hora .price { margin: 6px 0 2px; }
+.price-hora ul { margin: 0; }
+.price-hora .btn { align-self: start; }
+.price-hora > div:last-child { display: grid; gap: 14px; justify-items: start; }
+@media (max-width: 720px) {
+  .price-hora { grid-template-columns: 1fr; }
+  .price-hora .btn { width: 100%; }
+}
