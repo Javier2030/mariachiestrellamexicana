@@ -11,9 +11,9 @@
   --ink: #f3faec;
   --ink-2: #e8f4dd;
   --ink-3: #ffffff;
-  --gold: #3f7d20;
-  --gold-2: #2c5a15;
-  --gold-dim: #9fc97a;
+  --gold: #41800c;
+  --gold-2: #2f5e08;
+  --gold-dim: #a6d178;
   --oro: #b8860b;
   --red: #c4282d;
   --red-2: #a5121a;
@@ -21,7 +21,7 @@
   --paper: #17250e;
   --paper-dim: #2e4423;
   --muted: #55664a;
-  --line: rgba(63, 125, 32, .18);
+  --line: rgba(65, 128, 12, .18);
 
   --ff-head: "Playfair Display", "Times New Roman", Times, serif;
   --ff-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -31,7 +31,7 @@
   --shadow: 0 18px 46px -20px rgba(38, 84, 18, .32);
   --t: .22s cubic-bezier(.4, 0, .2, 1);
   --ease-out: cubic-bezier(.22, 1, .36, 1);
-  --glow: 0 22px 48px -20px rgba(63, 125, 32, .45);
+  --glow: 0 22px 48px -20px rgba(65, 128, 12, .45);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -114,10 +114,10 @@ p { margin: 0 0 1.1em; }
 .btn:hover::after { left: 115%; }
 .btn:hover { text-decoration: none; transform: translateY(-2px); }
 .btn:active { transform: translateY(0); }
-.btn-gold { background: linear-gradient(160deg, #458020, var(--gold)); color: #fff; box-shadow: 0 10px 26px -10px rgba(63, 125, 32, .5); }
-.btn-gold:hover { box-shadow: 0 16px 32px -10px rgba(63, 125, 32, .62); }
+.btn-gold { background: linear-gradient(160deg, #8fd14f, #6fbb22); color: #14210b; box-shadow: 0 10px 26px -10px rgba(65, 128, 12, .5); }
+.btn-gold:hover { box-shadow: 0 16px 32px -10px rgba(65, 128, 12, .62); }
 .btn-wa { background: #12a150; color: #fff; box-shadow: 0 10px 26px -10px rgba(18, 161, 80, .45); }
-.btn-ghost { border-color: rgba(63, 125, 32, .35); color: var(--gold-2); background: rgba(255, 255, 255, .72); }
+.btn-ghost { border-color: rgba(65, 128, 12, .35); color: var(--gold-2); background: rgba(255, 255, 255, .72); }
 .btn-ghost:hover { border-color: var(--gold); color: var(--gold); background: #fff; }
 .btn-lg { padding: 17px 34px; font-size: 1.04rem; }
 .btn-sm { padding: 10px 18px; font-size: .87rem; }
@@ -127,7 +127,7 @@ p { margin: 0 0 1.1em; }
 .hero::before {
   content: ""; position: absolute; inset: 0; z-index: -2;
   background:
-    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(108, 176, 50, .22), transparent 62%),
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(111, 187, 34, .22), transparent 62%),
     radial-gradient(ellipse 70% 50% at 88% 12%, rgba(184, 134, 11, .14), transparent 60%),
     linear-gradient(180deg, #eaf6de, var(--ink));
 }
@@ -161,12 +161,12 @@ p { margin: 0 0 1.1em; }
    enlace directo a WhatsApp con el mensaje ya escrito. */
 .hero-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 14px; }
 .hero-top .eyebrow { margin-bottom: 0; }
-a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: rgba(108, 176, 50, .16); transform: translateY(-1px); }
+a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: rgba(111, 187, 34, .16); transform: translateY(-1px); }
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 9px; transition: var(--t);
   padding: 7px 15px; border-radius: 999px;
-  border: 1px solid rgba(63, 125, 32, .28); background: rgba(108, 176, 50, .09);
+  border: 1px solid rgba(65, 128, 12, .28); background: rgba(111, 187, 34, .09);
   font-size: .74rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--gold);
   margin-bottom: 22px;
 }
@@ -195,7 +195,7 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
 .field input, .field select, .field textarea {
   width: 100%; padding: 9px 12px; font-size: .95rem; font-family: inherit;
   color: var(--paper); background: #fff;
-  border: 1px solid rgba(63, 125, 32, .28); border-radius: 10px;
+  border: 1px solid rgba(65, 128, 12, .28); border-radius: 10px;
   transition: var(--t); appearance: none;
 }
 .field select {
@@ -203,7 +203,7 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
   background-repeat: no-repeat; background-position: right 13px center; background-size: 17px; padding-right: 40px;
 }
 .field input:focus, .field select:focus, .field textarea:focus {
-  outline: 0; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(63, 125, 32, .16); background: #fff;
+  outline: 0; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(65, 128, 12, .16); background: #fff;
 }
 .field input::placeholder, .field textarea::placeholder { color: #8a9c80; }
 .field .err { display: none; margin-top: 3px; font-size: .75rem; color: var(--red-2); }
@@ -255,14 +255,14 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
   padding: 28px; transition: var(--t);
 }
 .card { border-radius: 16px; }
-.card:hover { border-color: rgba(63, 125, 32, .45); transform: translateY(-5px); box-shadow: var(--glow); }
-.card:hover .ico { background: linear-gradient(140deg, #458020, var(--gold)); color: #fff; transform: rotate(-6deg) scale(1.06); }
+.card:hover { border-color: rgba(65, 128, 12, .45); transform: translateY(-5px); box-shadow: var(--glow); }
+.card:hover .ico { background: linear-gradient(140deg, #8fd14f, #6fbb22); color: #14210b; transform: rotate(-6deg) scale(1.06); }
 .card .ico { transition: var(--t); }
 .card h3 { color: var(--paper); font-variant-numeric: lining-nums; }
 .card p { margin-bottom: 0; font-size: .94rem; color: var(--paper-dim); }
 .card .ico {
   width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
-  background: rgba(108, 176, 50, .1); border: 1px solid var(--line); color: var(--gold); margin-bottom: 16px;
+  background: rgba(111, 187, 34, .1); border: 1px solid var(--line); color: var(--gold); margin-bottom: 16px;
 }
 
 /* --- Precios ---
@@ -274,7 +274,7 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
   border: 1.5px solid transparent; border-radius: 18px;
   background-image:
     linear-gradient(168deg, #ffffff, #f4fbee),
-    linear-gradient(150deg, rgba(108, 176, 50, .55), rgba(184, 134, 11, .5) 55%, rgba(108, 176, 50, .3));
+    linear-gradient(150deg, rgba(111, 187, 34, .55), rgba(184, 134, 11, .5) 55%, rgba(111, 187, 34, .3));
   background-origin: border-box;
   background-clip: padding-box, border-box;
   transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out), background-image .45s var(--ease-out);
@@ -292,7 +292,7 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
    en el centro de la pantalla (.ahead). */
 .price-card:hover {
   transform: translateY(-10px) scale(1.025);
-  box-shadow: 0 0 0 4px rgba(108, 176, 50, .1), 0 30px 56px -24px rgba(38, 84, 18, .55), 0 0 34px -10px rgba(108, 176, 50, .45);
+  box-shadow: 0 0 0 4px rgba(111, 187, 34, .1), 0 30px 56px -24px rgba(38, 84, 18, .55), 0 0 34px -10px rgba(111, 187, 34, .45);
   z-index: 2;
 }
 .price-card:hover .price { transform: scale(1.04); }
@@ -304,7 +304,7 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
 @media (max-width: 900px) {
   .price-card.ahead {
     transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 0 0 4px rgba(108, 176, 50, .1), 0 30px 56px -24px rgba(38, 84, 18, .55), 0 0 34px -10px rgba(108, 176, 50, .45);
+    box-shadow: 0 0 0 4px rgba(111, 187, 34, .1), 0 30px 56px -24px rgba(38, 84, 18, .55), 0 0 34px -10px rgba(111, 187, 34, .45);
     z-index: 2;
   }
   .price-card.ahead .price { transform: scale(1.04); }
@@ -315,9 +315,9 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
 }
 .price-card .tag {
   position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-  background: linear-gradient(135deg, #458020, var(--gold)); color: #fff; font-size: .68rem; font-weight: 800;
+  background: linear-gradient(135deg, #8fd14f, #6fbb22); color: #14210b; font-size: .68rem; font-weight: 800;
   letter-spacing: .12em; text-transform: uppercase; padding: 5px 15px; border-radius: 999px; white-space: nowrap;
-  box-shadow: 0 6px 16px -6px rgba(63, 125, 32, .7);
+  box-shadow: 0 6px 16px -6px rgba(65, 128, 12, .7);
 }
 /* El precio va en la misma serif del título. Lo que se fuerza es la FORMA de las
    cifras: `lining-nums` las deja todas a la misma altura y `tabular-nums` las alinea.
@@ -387,7 +387,7 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
   color: #fff; width: 46px; height: 46px; border-radius: 50%;
   display: grid; place-items: center; cursor: pointer; font-size: 1.4rem; line-height: 1; transition: var(--t);
 }
-.viewer-close:hover, .viewer-nav:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+.viewer-close:hover, .viewer-nav:hover { background: #6fbb22; color: #14210b; border-color: var(--gold); }
 .viewer-close { top: 20px; right: 20px; }
 .viewer-nav.prev { left: 18px; top: 50%; transform: translateY(-50%); }
 .viewer-nav.next { right: 18px; top: 50%; transform: translateY(-50%); }
@@ -407,10 +407,10 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
   padding: 9px 17px; border-radius: 999px; border: 1px solid var(--line);
   background: rgba(255, 255, 255, .72); color: var(--paper-dim); font-size: .89rem; transition: var(--t);
 }
-.zones span.hi { border-color: rgba(63, 125, 32, .55); color: var(--gold); background: rgba(108, 176, 50, .1); font-weight: 700; }
+.zones span.hi { border-color: rgba(65, 128, 12, .55); color: var(--gold); background: rgba(111, 187, 34, .1); font-weight: 700; }
 .zones span { transition: var(--t); }
 .zones span:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
-.zones a:hover { border-color: var(--gold); color: var(--gold); text-decoration: none; background: rgba(108, 176, 50, .1); }
+.zones a:hover { border-color: var(--gold); color: var(--gold); text-decoration: none; background: rgba(111, 187, 34, .1); }
 
 /* --- FAQ --- */
 .faq { max-width: 780px; margin-inline: auto; }
@@ -439,7 +439,7 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
 /* --- Pie --- */
 .ftr { background: #17250e; border-top: 1px solid var(--line); padding: 56px 0 26px; font-size: .9rem; }
 .ftr-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 32px; margin-bottom: 38px; }
-.ftr h4 { font-family: var(--ff-body); font-size: .76rem; letter-spacing: .15em; text-transform: uppercase; color: #b7dd8f; margin-bottom: 15px; }
+.ftr h4 { font-family: var(--ff-body); font-size: .76rem; letter-spacing: .15em; text-transform: uppercase; color: #a6e668; margin-bottom: 15px; }
 .ftr ul { list-style: none; padding: 0; margin: 0; }
 .ftr li { margin-bottom: 9px; }
 .ftr a, .ftr p, .ftr li { color: #dceccf; }
@@ -448,7 +448,7 @@ a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: 
 .ftr-btm { border-top: 1px solid rgba(255, 255, 255, .12); padding-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; color: #bcd0ae; font-size: .82rem; }
 
 .ftr .brand { color: #fff; }
-.ftr .brand small { color: #b7dd8f; }
+.ftr .brand small { color: #a6e668; }
 
 /* --- Barra móvil fija --- */
 .mobile-bar {
