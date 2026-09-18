@@ -700,3 +700,20 @@ h2 { font-size: clamp(1.7rem, 1rem + 2.4vw, 2.7rem); letter-spacing: -.02em; }
   .price-hora { grid-template-columns: 1fr; }
   .price-hora .btn { width: 100%; }
 }
+
+
+/* --- Tarjetas de precio centradas (orden de César, 17-sep) --- */
+.price-card { text-align: center; align-items: center; }
+.price-card h3, .price-card .price, .price-card > span.muted { width: 100%; text-align: center; }
+.price { transform-origin: center; }
+/* La lista se centra como bloque, pero las viñetas conservan su alineación entre sí:
+   así el chulito no queda flotando a distinta distancia en cada línea. */
+.price-card ul { display: block; text-align: center; margin-inline: auto; width: 100%; }
+/* El chulito deja de ir absoluto para poder centrarse junto al texto. */
+.price-card li { padding-left: 0; text-align: center; }
+.price-card li::before { position: static; display: inline-block; vertical-align: -.16em; margin-right: 7px; }
+.g-5 .price-card li { padding-left: 0; }
+.price-card .btn { align-self: center; }
+.price-hora { justify-items: center; text-align: center; }
+.price-hora > div:last-child { justify-items: center; }
+.price-hora .btn { align-self: center; }
