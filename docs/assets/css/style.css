@@ -1,0 +1,763 @@
+/* Mariachi Estrella Mexicana — sistema visual
+   Paleta: verde manzana claro (fondo) + acento verde manzana profundo + oro charro de apoyo.
+   Los nombres de variable se conservan del tema anterior (--ink*, --gold*, --paper*)
+   para no tener que tocar 400 líneas de reglas: lo que cambia es su valor.
+     --ink*   = fondos, del más claro al más saturado
+     --gold*  = acento (hoy verde manzana; es el color de precios, títulos y llamadas)
+     --paper* = texto sobre fondo claro
+   Todo el texto se verificó ≥ 4.5:1 sobre su fondo. Sin dependencias. */
+
+:root {
+  --ink: #f3faec;
+  --ink-2: #e8f4dd;
+  --ink-3: #ffffff;
+  --gold: #41800c;
+  --gold-2: #2f5e08;
+  --gold-dim: #a6d178;
+  --oro: #b8860b;
+  --red: #c4282d;
+  --red-2: #a5121a;
+  --green: #1f7a4d;
+  --paper: #17250e;
+  --paper-dim: #2e4423;
+  --muted: #55664a;
+  --line: rgba(65, 128, 12, .18);
+
+  --ff-head: "Playfair Display", "Times New Roman", Times, serif;
+  --ff-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --w: 1140px;
+  --r: 14px;
+  --shadow: 0 18px 46px -20px rgba(38, 84, 18, .32);
+  --t: .22s cubic-bezier(.4, 0, .2, 1);
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --glow: 0 22px 48px -20px rgba(65, 128, 12, .45);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--ff-body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--gold-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1, h2, h3, h4 { font-family: var(--ff-head); line-height: 1.13; margin: 0 0 .42em; font-weight: 700; }
+h1 { font-size: clamp(2.1rem, 5.2vw, 3.6rem); letter-spacing: -.02em; }
+h2 { font-size: clamp(1.6rem, 3.6vw, 2.5rem); letter-spacing: -.015em; }
+h3 { font-size: clamp(1.15rem, 2.2vw, 1.45rem); }
+p { margin: 0 0 1.1em; }
+
+.wrap { width: 100%; max-width: var(--w); margin-inline: auto; padding-inline: 22px; }
+.section { padding: clamp(34px, 5.5vw, 76px) 0; }
+.center { text-align: center; }
+.muted { color: var(--muted); }
+.lead { font-size: clamp(1.05rem, 1.6vw, 1.22rem); color: var(--paper-dim); }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* --- Cinta tricolor decorativa --- */
+.ribbon { height: 4px; background: linear-gradient(90deg, var(--green) 0 33.33%, var(--oro) 33.33% 66.66%, var(--red) 66.66% 100%); }
+
+/* --- Encabezado --- */
+.hdr {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(243, 250, 236, .86);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid var(--line);
+  transition: box-shadow .3s var(--ease-out), background .3s var(--ease-out);
+}
+.hdr.scrolled { box-shadow: 0 10px 30px -18px rgba(38, 84, 18, .5); background: rgba(243, 250, 236, .96); }
+.hdr .wrap { display: flex; align-items: center; gap: 20px; min-height: 68px; }
+.brand { display: flex; align-items: center; gap: 11px; font-family: var(--ff-head); font-size: 1.12rem; color: var(--paper); font-weight: 700; letter-spacing: .01em; }
+.brand:hover { text-decoration: none; }
+.brand .star { width: 30px; height: 30px; flex: 0 0 30px; }
+.brand small { display: block; font-family: var(--ff-body); font-size: .63rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+
+.nav { margin-left: auto; display: flex; align-items: center; gap: 26px; }
+/* `:not(.btn)` es necesario: si no, esta regla gana por especificidad al color
+   del botón dorado y deja el teléfono ilegible sobre el fondo dorado. */
+.nav a:not(.btn) { color: var(--paper-dim); font-size: .92rem; font-weight: 500; white-space: nowrap; }
+.nav a:not(.btn):hover { color: var(--gold-2); text-decoration: none; }
+
+.burger { display: none; background: none; border: 0; padding: 8px; cursor: pointer; }
+.burger span { display: block; width: 24px; height: 2px; background: var(--gold); margin: 5px 0; transition: var(--t); }
+
+/* --- Botones --- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  padding: 14px 26px; border-radius: 999px; border: 1px solid transparent;
+  font-weight: 700; font-size: .97rem; letter-spacing: .01em;
+  cursor: pointer; transition: var(--t); white-space: nowrap; font-family: inherit;
+}
+.btn { position: relative; overflow: hidden; }
+/* Destello que cruza el botón al pasar por encima: 200 bytes de CSS, cero JS. */
+.btn::after {
+  content: ""; position: absolute; top: 0; left: -60%; width: 45%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .45), transparent);
+  transform: skewX(-18deg); transition: left .6s var(--ease-out); pointer-events: none;
+}
+.btn:hover::after { left: 115%; }
+.btn:hover { text-decoration: none; transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn-gold { background: linear-gradient(160deg, #8fd14f, #6fbb22); color: #14210b; box-shadow: 0 10px 26px -10px rgba(65, 128, 12, .5); }
+.btn-gold:hover { box-shadow: 0 16px 32px -10px rgba(65, 128, 12, .62); }
+.btn-wa { background: #12a150; color: #fff; box-shadow: 0 10px 26px -10px rgba(18, 161, 80, .45); }
+.btn-ghost { border-color: rgba(65, 128, 12, .35); color: var(--gold-2); background: rgba(255, 255, 255, .72); }
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); background: #fff; }
+.btn-lg { padding: 17px 34px; font-size: 1.04rem; }
+.btn-sm { padding: 10px 18px; font-size: .87rem; }
+
+/* --- Hero --- */
+.hero { position: relative; padding: clamp(20px, 4vw, 56px) 0 clamp(34px, 5vw, 72px); overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: -2;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(111, 187, 34, .22), transparent 62%),
+    radial-gradient(ellipse 70% 50% at 88% 12%, rgba(184, 134, 11, .14), transparent 60%),
+    linear-gradient(180deg, #eaf6de, var(--ink));
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; opacity: .09;
+  background-image: radial-gradient(var(--gold) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: linear-gradient(180deg, #000, transparent 78%);
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent 78%);
+}
+.hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: clamp(30px, 5vw, 62px); align-items: start; }
+/* En pantalla grande la foto va bajo el titular, como en el móvil, pero acotada: si
+   se deja a su alto natural, el texto y los botones caen fuera de la primera vista y
+   el formulario queda flotando en un hueco. */
+@media (min-width: 961px) {
+  .hero-foto img { max-height: 320px; width: 100%; object-fit: cover; object-position: center 35%; }
+  .quote-card { position: sticky; top: 92px; }
+  /* En el móvil la foto va justo bajo el titular. En pantalla grande hay sitio de
+     sobra, así que primero van el texto y los botones —lo que convierte— y la foto
+     queda debajo, todo dentro de la primera vista. El orden del HTML no cambia. */
+  .hero-grid > div:first-child { display: flex; flex-direction: column; }
+  .hero-grid .eyebrow { order: 1; align-self: flex-start; }
+  .hero-grid h1 { order: 2; }
+  .hero-grid .lead { order: 3; }
+  .hero-grid .hero-cta { order: 4; margin-top: 22px; }
+  .hero-grid .hero-foto { order: 5; margin-top: 6px; }
+  .hero-grid .hero-trust { order: 6; margin-top: 18px; }
+}
+
+/* Fila superior del hero: el botón a los paquetes y el distintivo, que ahora es un
+   enlace directo a WhatsApp con el mensaje ya escrito. */
+.hero-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 14px; }
+.hero-top .eyebrow { margin-bottom: 0; }
+a.eyebrow:hover { text-decoration: none; border-color: var(--gold); background: rgba(111, 187, 34, .16); transform: translateY(-1px); }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 9px; transition: var(--t);
+  padding: 7px 15px; border-radius: 999px;
+  border: 1px solid rgba(65, 128, 12, .28); background: rgba(111, 187, 34, .09);
+  font-size: .74rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--gold);
+  margin-bottom: 22px;
+}
+.eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: #35d07f; box-shadow: 0 0 0 0 rgba(53, 208, 127, .7); animation: pulse 2.4s infinite; }
+@keyframes pulse { 70% { box-shadow: 0 0 0 9px rgba(53, 208, 127, 0); } 100% { box-shadow: 0 0 0 0 rgba(53, 208, 127, 0); } }
+
+.hero h1 .gold { color: var(--gold); display: block; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0 16px; }
+.hero-trust { display: flex; flex-wrap: wrap; gap: 8px 26px; font-size: .88rem; color: var(--muted); }
+.hero-trust span { display: inline-flex; align-items: center; gap: 7px; }
+.hero-trust svg { flex: 0 0 15px; color: var(--gold); }
+
+/* --- Tarjeta de cotización --- */
+.quote-card {
+  background: linear-gradient(165deg, #ffffff, #f4fbee);
+  border: 1px solid var(--line); border-radius: var(--r);
+  padding: clamp(16px, 2vw, 22px); box-shadow: var(--shadow);
+}
+/* El cuadro compite con el titular por la primera pantalla: va compacto a propósito
+   —dos campos por fila, sin subtítulo— para que quepa junto al resto del hero. */
+.quote-card h3 { margin-bottom: 14px; color: var(--gold-2); font-size: 1.15rem; }
+.quote-card > p { font-size: .86rem; color: var(--muted); margin-bottom: 14px; }
+
+.field { margin-bottom: 10px; }
+.field label { display: block; font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--paper-dim); margin-bottom: 4px; }
+.field input, .field select, .field textarea {
+  width: 100%; padding: 9px 12px; font-size: .95rem; font-family: inherit;
+  color: var(--paper); background: #fff;
+  border: 1px solid rgba(65, 128, 12, .28); border-radius: 10px;
+  transition: var(--t); appearance: none;
+}
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a8a1c' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 13px center; background-size: 17px; padding-right: 40px;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: 0; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(65, 128, 12, .16); background: #fff;
+}
+.field input::placeholder, .field textarea::placeholder { color: #8a9c80; }
+.field .err { display: none; margin-top: 3px; font-size: .75rem; color: var(--red-2); }
+.field.invalid input, .field.invalid select { border-color: var(--red-2); }
+.field.invalid .err { display: block; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-note { margin: 9px 0 0; font-size: .73rem; color: var(--muted); text-align: center; line-height: 1.4; }
+
+#quote-form .btn-gold, .lp-form .btn-gold { padding: 11px 22px; font-size: .95rem; }
+
+/* --- Franja de credibilidad --- */
+.stats { border-block: 1px solid var(--line); background: var(--ink-2); }
+.stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; padding-block: 38px; }
+.stat { text-align: center; }
+.stat b { display: block; font-family: var(--ff-head); font-weight: 700; font-variant-numeric: lining-nums tabular-nums; font-feature-settings: "lnum" 1, "tnum" 1; font-size: clamp(1.8rem, 3.4vw, 2.5rem); color: var(--gold); line-height: 1.1; letter-spacing: -.01em; }
+.stat span { font-size: .82rem; color: var(--muted); letter-spacing: .04em; }
+
+/* --- Rejillas genéricas --- */
+/* El header es sticky: cualquier ancla debe frenar por debajo de él. */
+[id] { scroll-margin-top: 86px; }
+/* «Ver paquetes» debe dejar la PRIMERA TARJETA completa bajo el encabezado, no el
+   título de la sección: por eso el ancla está en la parrilla, con su propio margen. */
+#paquetes { scroll-margin-top: 106px; }
+
+.grid { display: grid; gap: 22px; }
+.g-2 { grid-template-columns: repeat(2, 1fr); }
+.g-3 { grid-template-columns: repeat(3, 1fr); }
+.g-4 { grid-template-columns: repeat(4, 1fr); }
+.g-5 { grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.g-5 .price-card { padding: 18px 15px 16px; }
+
+.g-5 .price small { font-size: .68rem; }
+/* «10 canciones · 5 integrantes» es la línea más larga: a este cuerpo entra de una
+   sola vez en las cinco tarjetas y sus listas arrancan a la misma altura. */
+.g-5 .price-card > span.muted { white-space: nowrap; }
+/* Texto un 40 % más grande sin que la tarjeta crezca: lo que sube en cuerpo de letra
+   se recupera apretando interlineado, separación entre viñetas y márgenes. */
+.g-5 .price-card li { font-size: 1.22rem; line-height: 1.24; margin-bottom: 3px; padding-left: 23px; }
+.g-5 .price-card li::before { top: .3em; width: 16px; height: 16px; }
+.g-5 .price-card ul { margin: 9px 0 10px; }
+.g-5 .price-card h3 { font-size: 1.62rem; margin-bottom: 2px; }
+.g-5 .price { font-size: 1.9rem; margin: 2px 0 0; }
+.g-5 .price-card > span.muted { font-size: 1rem; }
+.g-5 .price-card .btn { padding: 10px 16px; font-size: 1rem; }
+
+.card {
+  background: linear-gradient(165deg, #ffffff, #f4fbee);
+  border: 1px solid var(--line); border-radius: var(--r);
+  padding: 28px; transition: var(--t);
+}
+.card { border-radius: 16px; }
+.card:hover { border-color: rgba(65, 128, 12, .45); transform: translateY(-5px); box-shadow: var(--glow); }
+.card:hover .ico { background: linear-gradient(140deg, #8fd14f, #6fbb22); color: #14210b; transform: rotate(-6deg) scale(1.06); }
+.card .ico { transition: var(--t); }
+.card h3 { color: var(--paper); font-variant-numeric: lining-nums; }
+.card p { margin-bottom: 0; font-size: .94rem; color: var(--paper-dim); }
+.card .ico {
+  width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
+  background: rgba(111, 187, 34, .1); border: 1px solid var(--line); color: var(--gold); margin-bottom: 16px;
+}
+
+/* --- Precios ---
+   El borde es un gradiente real, no un color plano: se pinta en la caja del borde
+   con dos capas de fondo (padding-box para el relleno, border-box para el trazo).
+   Es la única forma de tener degradado en el borde sin un pseudo-elemento extra. */
+.price-card {
+  display: flex; flex-direction: column; position: relative;
+  border: 1.5px solid transparent; border-radius: 18px;
+  background-image:
+    linear-gradient(168deg, #ffffff, #f4fbee),
+    linear-gradient(150deg, rgba(111, 187, 34, .55), rgba(184, 134, 11, .5) 55%, rgba(111, 187, 34, .3));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out), background-image .45s var(--ease-out);
+  will-change: transform;
+}
+.price-card.pop {
+  background-image:
+    linear-gradient(168deg, #ffffff, #f8fdf4),
+    linear-gradient(150deg, var(--gold), #e8b53f 55%, var(--gold));
+  box-shadow: var(--glow);
+}
+
+/* Al pasar por delante: la tarjeta se adelanta. En escritorio lo dispara el ratón;
+   en el móvil, donde no hay hover, lo marca el observador cuando la tarjeta queda
+   en el centro de la pantalla (.ahead). */
+.price-card:hover {
+  transform: translateY(-10px) scale(1.025);
+  box-shadow: 0 0 0 4px rgba(111, 187, 34, .1), 0 30px 56px -24px rgba(38, 84, 18, .55), 0 0 34px -10px rgba(111, 187, 34, .45);
+  z-index: 2;
+}
+.price-card:hover .price { transform: scale(1.04); }
+.price-card:hover .btn { transform: translateY(-2px); }
+
+/* El realce por «estar enfrente» es solo para pantallas apiladas: en escritorio las
+   cinco tarjetas caben a la vez en la franja central y encenderlas todas no destaca
+   ninguna. Ahí manda el ratón. */
+@media (max-width: 900px) {
+  .price-card.ahead {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 0 0 4px rgba(111, 187, 34, .1), 0 30px 56px -24px rgba(38, 84, 18, .55), 0 0 34px -10px rgba(111, 187, 34, .45);
+    z-index: 2;
+  }
+  .price-card.ahead .price { transform: scale(1.04); }
+}
+@media (hover: none) {
+  .price-card:hover { transform: none; box-shadow: none; }
+  .price-card.pop:hover { box-shadow: var(--glow); }
+}
+.price-card .tag {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, #8fd14f, #6fbb22); color: #14210b; font-size: .68rem; font-weight: 800;
+  letter-spacing: .12em; text-transform: uppercase; padding: 5px 15px; border-radius: 999px; white-space: nowrap;
+  box-shadow: 0 6px 16px -6px rgba(65, 128, 12, .7);
+}
+/* El precio va en la misma serif del título. Lo que se fuerza es la FORMA de las
+   cifras: `lining-nums` las deja todas a la misma altura y `tabular-nums` las alinea.
+   Sin esto, la serif las dibuja al estilo antiguo —unas altas y otras bajas— y un
+   precio se lee torcido. El respaldo de la familia también usa cifras de caja alta. */
+.price {
+  font-family: var(--ff-head); font-weight: 700; letter-spacing: -.005em;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  font-size: 2.4rem; line-height: 1.2; margin: 4px 0 2px;
+  white-space: nowrap;   /* el «COP» nunca debe caer a la línea de abajo */
+  color: var(--gold);
+  transition: transform .45s var(--ease-out); transform-origin: left center;
+}
+.price small { font-size: .8rem; font-family: var(--ff-body); color: var(--muted); font-weight: 400; }
+.price-card ul { list-style: none; padding: 0; margin: 20px 0 26px; flex: 1; }
+.price-card li { position: relative; padding-left: 26px; margin-bottom: 11px; font-size: .93rem; color: var(--paper-dim); }
+.price-card li::before {
+  content: ""; position: absolute; left: 0; top: .42em; width: 15px; height: 15px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a8a1c' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+/* --- Foto del hero --- */
+.hero-foto { margin: 0 0 18px; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); }
+.hero-foto img { width: 100%; height: auto; display: block; }
+
+/* --- Foto dentro de un bloque de prosa --- */
+.foto-prosa { margin: 26px 0; }
+/* Las fotos verticales llegan a 967 px de alto: sin tope se comen la pantalla entera
+   y empujan el resto del texto fuera de vista. */
+.foto-prosa img { width: auto; max-width: 100%; max-height: 460px; margin-inline: auto; border-radius: var(--r); border: 1px solid var(--line); }
+.foto-prosa figcaption { margin-top: 10px; font-size: .84rem; color: var(--muted); text-align: center; }
+
+/* --- Galería --- */
+.gal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.gal-item { margin: 0; }
+.gal-btn {
+  display: block; width: 100%; padding: 0; border: 1px solid var(--line);
+  border-radius: 12px; overflow: hidden; background: #e2f0d6;
+  cursor: zoom-in; transition: var(--t); aspect-ratio: 4 / 3;
+}
+.gal-btn img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s cubic-bezier(.4,0,.2,1); }
+.gal-btn:hover { border-color: var(--gold); box-shadow: var(--glow); transform: translateY(-3px); }
+.gal-btn:hover img { transform: scale(1.05); }
+.gal-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+/* --- Visor de imagen --- */
+.viewer {
+  position: fixed; inset: 0; z-index: 200; display: none;
+  place-items: center; padding: 24px;
+  background: rgba(23, 37, 14, .94); backdrop-filter: blur(6px);
+}
+.viewer.open { display: grid; }
+.viewer img { max-width: min(94vw, 1100px); max-height: 84vh; border-radius: 10px; box-shadow: var(--shadow); transition: filter .35s ease; }
+/* Mientras llega la foto grande se ve la miniatura ampliada, desenfocada a propósito
+   para que se lea como «cargando» y no como una foto de mala calidad. */
+.viewer.cargando img { filter: blur(12px) saturate(1.1); }
+.viewer.cargando figure::after {
+  content: ""; position: absolute; top: 50%; left: 50%; width: 34px; height: 34px; margin: -17px 0 0 -17px;
+  border: 3px solid rgba(255, 255, 255, .3); border-top-color: #fff; border-radius: 50%;
+  animation: girar .8s linear infinite;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
+.viewer figcaption { margin-top: 14px; text-align: center; font-size: .88rem; color: #e4f1d9; max-width: 62ch; }
+.viewer-close, .viewer-nav {
+  position: absolute; background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .32);
+  color: #fff; width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer; font-size: 1.4rem; line-height: 1; transition: var(--t);
+}
+.viewer-close:hover, .viewer-nav:hover { background: #6fbb22; color: #14210b; border-color: var(--gold); }
+.viewer-close { top: 20px; right: 20px; }
+.viewer-nav.prev { left: 18px; top: 50%; transform: translateY(-50%); }
+.viewer-nav.next { right: 18px; top: 50%; transform: translateY(-50%); }
+
+/* --- Reseñas --- */
+.review { background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 26px; }
+.review .stars { color: var(--gold); letter-spacing: 3px; font-size: 1.02rem; margin-bottom: 12px; }
+.review blockquote { margin: 0 0 16px; font-size: .96rem; color: var(--paper-dim); font-style: italic; }
+.review footer { display: flex; align-items: center; gap: 11px; font-size: .86rem; }
+.review .av { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(150deg, var(--gold), var(--red)); display: grid; place-items: center; color: #241a06; font-weight: 800; flex: 0 0 36px; }
+.review .av + div b { display: block; color: var(--paper); }
+.review .av + div span { color: var(--muted); font-size: .8rem; }
+
+/* --- Zonas --- */
+.zones { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.zones a, .zones span {
+  padding: 9px 17px; border-radius: 999px; border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .72); color: var(--paper-dim); font-size: .89rem; transition: var(--t);
+}
+.zones span.hi { border-color: rgba(65, 128, 12, .55); color: var(--gold); background: rgba(111, 187, 34, .1); font-weight: 700; }
+.zones span { transition: var(--t); }
+.zones span:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+.zones a:hover { border-color: var(--gold); color: var(--gold); text-decoration: none; background: rgba(111, 187, 34, .1); }
+
+/* --- FAQ --- */
+.faq { max-width: 780px; margin-inline: auto; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+  padding: 20px 40px 20px 0; cursor: pointer; list-style: none; position: relative;
+  font-weight: 600; font-size: 1.03rem; color: var(--paper); font-family: var(--ff-head);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  font-size: 1.5rem; color: var(--gold); font-weight: 300; transition: var(--t);
+}
+.faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+.faq details > div { padding: 0 0 22px; color: var(--paper-dim); font-size: .95rem; }
+.faq details > div p:last-child { margin-bottom: 0; }
+
+/* --- CTA final --- */
+.cta-band { position: relative; background: linear-gradient(150deg, #dcefca, var(--ink-2) 62%); border-block: 1px solid var(--line); overflow: hidden; }
+.cta-band::after {
+  content: ""; position: absolute; inset: 0; opacity: .1;
+  background-image: radial-gradient(var(--gold) 1px, transparent 1px); background-size: 22px 22px;
+}
+.cta-band .wrap { position: relative; z-index: 1; }
+
+/* --- Pie --- */
+.ftr { background: #17250e; border-top: 1px solid var(--line); padding: 56px 0 26px; font-size: .9rem; }
+.ftr-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 32px; margin-bottom: 38px; }
+.ftr h4 { font-family: var(--ff-body); font-size: .76rem; letter-spacing: .15em; text-transform: uppercase; color: #a6e668; margin-bottom: 15px; }
+.ftr ul { list-style: none; padding: 0; margin: 0; }
+.ftr li { margin-bottom: 9px; }
+.ftr a, .ftr p, .ftr li { color: #dceccf; }
+.ftr a:hover { color: #fff; }
+.ftr p { margin-bottom: .6em; }
+.ftr-btm { border-top: 1px solid rgba(255, 255, 255, .12); padding-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; color: #bcd0ae; font-size: .82rem; }
+
+.ftr .brand { color: #fff; }
+.ftr .brand small { color: #a6e668; }
+
+/* --- Barra móvil fija --- */
+.mobile-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 80; display: none;
+  gap: 9px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: rgba(243, 250, 236, .96); backdrop-filter: blur(12px); border-top: 1px solid var(--line);
+}
+.mobile-bar .btn { flex: 1; padding: 13px 10px; font-size: .9rem; }
+
+/* --- Migas --- */
+.crumbs { font-size: .82rem; color: var(--muted); padding-top: 20px; }
+.crumbs a { color: var(--muted); }
+.crumbs a:hover { color: var(--gold); }
+
+/* --- Prosa (páginas SEO) --- */
+.prose { max-width: 760px; }
+.prose h2 { margin-top: 1.8em; }
+.prose h3 { margin-top: 1.5em; color: var(--gold-2); }
+.prose ul, .prose ol { padding-left: 1.3em; color: var(--paper-dim); }
+.prose li { margin-bottom: .55em; }
+.prose table { width: 100%; border-collapse: collapse; margin: 1.6em 0; font-size: .92rem; }
+.prose th, .prose td { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align: left; }
+.prose th { color: var(--gold); font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; }
+.prose td { color: var(--paper-dim); }
+
+/* --- Animación de entrada ---
+   Por defecto el contenido es visible. El JS marca `.pre` justo antes de observar,
+   así que si el script falla o está bloqueado nunca queda contenido invisible. */
+.reveal { transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
+.reveal.pre { opacity: 0; transform: translateY(26px); }
+/* Escalonado: las tarjetas de una rejilla no entran todas a la vez. */
+.reveal.pre > *:nth-child(1) { transition-delay: 0s; }
+.reveal > * { transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
+.reveal.pre > * { opacity: 0; transform: translateY(14px); }
+.reveal.in > *:nth-child(1) { transition-delay: .04s; }
+.reveal.in > *:nth-child(2) { transition-delay: .12s; }
+.reveal.in > *:nth-child(3) { transition-delay: .2s; }
+.reveal.in > *:nth-child(4) { transition-delay: .28s; }
+.reveal.in > *:nth-child(5) { transition-delay: .36s; }
+.reveal.in > *:nth-child(6) { transition-delay: .44s; }
+.reveal.in > * { opacity: 1; transform: none; }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .reveal, .reveal > * { opacity: 1 !important; transform: none !important; }
+  .price-card:hover, .price-card.ahead { transform: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* --- Adaptativo --- */
+@media (max-width: 960px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .g-4 { grid-template-columns: repeat(2, 1fr); }
+  .g-5 { grid-template-columns: repeat(2, 1fr); }
+  .gal { grid-template-columns: repeat(3, 1fr); }
+  .ftr-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .nav { position: fixed; inset: 68px 0 auto; flex-direction: column; align-items: stretch; gap: 0;
+         background: var(--ink-2); border-bottom: 1px solid var(--line); padding: 8px 22px 18px;
+         transform: translateY(-130%); transition: var(--t); }
+  .nav.open { transform: none; }
+  .nav a { padding: 13px 0; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+  .nav .btn { margin-top: 12px; }
+  .burger { display: block; margin-left: auto; }
+  .g-2, .g-3, .g-4, .g-5 { grid-template-columns: 1fr; }
+  /* En el móvil los bloques respiraban demasiado: se recorta el aire muerto sin
+     apretar el texto, que mantiene su interlineado. */
+  .section { padding: 30px 0; }
+  .hero { padding: 14px 0 26px; }
+  .grid { gap: 14px; }
+  .section .center .lead { margin-bottom: 4px; }
+  .stats .wrap { padding-block: 24px; }
+  .faq { margin-top: 6px; }
+  .cta-band { padding: 34px 0; }
+  .ftr { padding: 34px 0 20px; }
+  .ftr-grid { gap: 22px; margin-bottom: 24px; }
+  /* Servicios: seis tarjetas apiladas eran ~2.400 px de scroll antes de los paquetes.
+     En móvil se compactan a tres por fila —icono y título— y el detalle se lee en la
+     página del servicio. La sección pasa a ocupar dos filas. */
+  .svc { grid-template-columns: repeat(3, 1fr) !important; gap: 9px; }
+  .svc .card { padding: 15px 8px 14px; text-align: center; border-radius: 12px; }
+  .svc .card .ico { width: 34px; height: 34px; border-radius: 10px; margin: 0 auto 9px; }
+  .svc .card .ico svg { width: 17px; height: 17px; }
+  .svc .card h3 { font-size: .78rem; line-height: 1.25; margin: 0; hyphens: auto; }
+  .svc .card p { display: none; }
+  /* Las tablas de datos no caben en 390 px: se apilan fila a fila, con la
+     etiqueta de columna delante de cada valor (data-l). */
+  .prose table { display: block; margin: 1.4em 0; }
+  .prose table thead { display: none; }
+  .prose table tbody, .prose table tr, .prose table td { display: block; width: 100%; }
+  .prose table tr {
+    border: 1px solid var(--line); border-radius: 14px;
+    padding: 12px 15px; margin-bottom: 12px; background: rgba(255, 255, 255, .72);
+  }
+  .prose table td {
+    border: 0; padding: 5px 0; display: flex; gap: 16px;
+    justify-content: space-between; align-items: baseline; text-align: right;
+  }
+  .prose table td > span { flex: 1 1 auto; }
+  .prose table td::before {
+    content: attr(data-l); color: var(--gold); font-size: .74rem; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; text-align: left; flex: 0 0 auto;
+  }
+  .gal { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .viewer { padding: 14px; }
+  .viewer-nav { width: 40px; height: 40px; }
+  .viewer-nav.prev { left: 8px; }
+  .viewer-nav.next { right: 8px; }
+  .stats .wrap { grid-template-columns: 1fr 1fr; gap: 26px 18px; }
+  /* Los cuatro campos caben de a dos incluso en 360 px: apilarlos duplicaba el
+     alto del cuadro de cotización, que es lo primero que se ve en el móvil. */
+  .row-2 { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .quote-card { padding: 15px 14px; }
+  .quote-card h3 { font-size: 1.05rem; margin-bottom: 11px; }
+  .field label { font-size: .64rem; letter-spacing: .04em; }
+  .field input, .field select { padding: 8px 10px; font-size: .9rem; }
+  .mobile-bar { display: flex; }
+  body { padding-bottom: 74px; }
+  .ftr-grid { grid-template-columns: 1fr; gap: 26px; }
+}
+
+/* El signo de moneda va en la tipografía del cuerpo y algo más pequeño: el `$` de
+   Playfair a 2.3rem tiene barras que sobresalen y ensucian la cifra. */
+.price .cur { font-size: .58em; font-weight: 700; vertical-align: .18em; margin-right: .07em; color: #55912a; }
+
+
+/* ════════════════════════════════════════════════════════════════════
+   REFRESCO 2026 — superficies suaves, jerarquía tipográfica más ancha,
+   foco accesible, transición entre páginas y modo oscuro del sistema.
+   Va al final a propósito: solo ajusta lo ya definido arriba.
+   ════════════════════════════════════════════════════════════════════ */
+:root {
+  --surface: #ffffff;
+  --surface-2: #f4fbee;
+  --sh-1: 0 1px 2px rgba(23, 37, 14, .05), 0 10px 26px -18px rgba(23, 37, 14, .28);
+  --sh-2: 0 2px 6px rgba(23, 37, 14, .06), 0 26px 52px -28px rgba(23, 37, 14, .42);
+  --r: 20px;
+}
+
+/* Titulares que no parten en huérfanas y párrafos sin líneas viudas. */
+h1, h2, h3, h4 { text-wrap: balance; }
+p, li, figcaption, .lead { text-wrap: pretty; }
+h1 { font-size: clamp(2.2rem, 1.1rem + 3.6vw, 3.9rem); letter-spacing: -.028em; }
+h2 { font-size: clamp(1.7rem, 1rem + 2.4vw, 2.7rem); letter-spacing: -.02em; }
+
+/* Superficies: menos borde duro, más profundidad en capas. */
+.card, .review, .quote-card, .hero-foto { border-radius: var(--r); box-shadow: var(--sh-1); }
+.card { border-radius: var(--r); }
+.card:hover { box-shadow: var(--sh-2); }
+.price-card { border-radius: 24px; }
+.gal-btn { border-radius: 16px; }
+.field input, .field select, .field textarea { border-radius: 12px; }
+
+/* Foco visible uniforme (teclado y lector de pantalla), sin afear el ratón. */
+:where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* Barra móvil: vidrio y respeto por el área segura del teléfono. */
+.mobile-bar { backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%); }
+
+/* Transición suave entre páginas donde el navegador la soporta. */
+@view-transition { navigation: auto; }
+
+/* Aparición ligada al scroll donde exista; si no, sigue mandando el JS de siempre. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 721px) {
+    .section > .wrap > .grid > * {
+      animation: surgir linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 26%;
+    }
+    @keyframes surgir { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  }
+}
+
+/* ── Modo oscuro del sistema ───────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #0e1a08;
+    --ink-2: #14240d;
+    --ink-3: #0b1406;
+    --gold: #8fd14f;
+    --gold-2: #a6e668;
+    --gold-dim: #5f8f3a;
+    --paper: #e8f3de;
+    --paper-dim: #c4d8b6;
+    --muted: #9cb389;
+    --line: rgba(143, 209, 79, .22);
+    --surface: #16260e;
+    --surface-2: #101d0a;
+    --shadow: 0 18px 46px -20px rgba(0, 0, 0, .7);
+    --glow: 0 22px 48px -20px rgba(143, 209, 79, .3);
+    --sh-1: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 26px -18px rgba(0, 0, 0, .8);
+    --sh-2: 0 2px 6px rgba(0, 0, 0, .45), 0 26px 52px -28px rgba(0, 0, 0, .9);
+  }
+  body { background: var(--ink); }
+  .hdr { background: rgba(14, 26, 8, .82); }
+  .hdr.scrolled { background: rgba(14, 26, 8, .95); box-shadow: 0 10px 30px -18px rgba(0, 0, 0, .8); }
+  .hero::before { background:
+      radial-gradient(ellipse 90% 60% at 50% -10%, rgba(143, 209, 79, .16), transparent 62%),
+      radial-gradient(ellipse 70% 50% at 88% 12%, rgba(184, 134, 11, .12), transparent 60%),
+      linear-gradient(180deg, #12200b, var(--ink)); }
+  .card, .quote-card { background: linear-gradient(165deg, var(--surface), var(--surface-2)); }
+  .price-card { background-image:
+      linear-gradient(168deg, var(--surface), var(--surface-2)),
+      linear-gradient(150deg, rgba(143, 209, 79, .5), rgba(184, 134, 11, .45) 55%, rgba(143, 209, 79, .28)); }
+  .price-card.pop { background-image:
+      linear-gradient(168deg, #1a2d11, var(--surface-2)),
+      linear-gradient(150deg, var(--gold), #e8b53f 55%, var(--gold)); }
+  .field input, .field select, .field textarea { background: #101d0a; color: var(--paper); border-color: rgba(143, 209, 79, .3); }
+  .field input:focus, .field select:focus, .field textarea:focus { background: #14240d; }
+  .field input::placeholder, .field textarea::placeholder { color: #7e9a6c; }
+  .btn-ghost { background: rgba(143, 209, 79, .06); color: var(--gold-2); border-color: rgba(143, 209, 79, .35); }
+  .btn-ghost:hover { background: rgba(143, 209, 79, .14); color: var(--gold-2); border-color: var(--gold); }
+  .zones a, .zones span { background: rgba(143, 209, 79, .06); }
+  .zones span.hi, .zones a:hover, .zones span:hover { background: rgba(143, 209, 79, .14); }
+  .cta-band { background: linear-gradient(150deg, #16260e, var(--ink-2) 62%); }
+  .stats { background: var(--ink-2); }
+  .gal-btn { background: #16260e; }
+  .ftr { background: #0a1305; }
+  .review { background: var(--ink-2); }
+  .mobile-bar { background: rgba(14, 26, 8, .94); }
+  .prose table tr { background: rgba(143, 209, 79, .05); }
+  .card .ico { background: rgba(143, 209, 79, .12); }
+  .price .cur { color: var(--gold); }
+  .btn-gold { color: #0e1a08; }
+  @media (max-width: 720px) { .nav { background: var(--ink-2); } }
+  img:not(.no-dim) { filter: saturate(.94) brightness(.94); }
+}
+
+
+/* --- Paquete por hora: banda ancha bajo las cinco tarjetas de serenata --- */
+.price-hora {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(16px, 3vw, 34px);
+  align-items: center; margin-top: 20px; padding: clamp(20px, 3vw, 30px);
+}
+.price-hora .price { margin: 6px 0 2px; }
+.price-hora ul { margin: 0; }
+.price-hora .btn { align-self: start; }
+.price-hora > div:last-child { display: grid; gap: 14px; justify-items: start; }
+@media (max-width: 720px) {
+  .price-hora { grid-template-columns: 1fr; }
+  .price-hora .btn { width: 100%; }
+}
+
+
+/* --- Tarjetas de precio centradas (orden de César, 17-sep) --- */
+.price-card { text-align: center; align-items: center; }
+.price-card h3, .price-card .price, .price-card > span.muted { width: 100%; text-align: center; }
+.price { transform-origin: center; }
+/* La lista se centra como bloque, pero las viñetas conservan su alineación entre sí:
+   así el chulito no queda flotando a distinta distancia en cada línea. */
+.price-card ul { display: block; text-align: center; margin-inline: auto; width: 100%; }
+/* El chulito deja de ir absoluto para poder centrarse junto al texto. */
+.price-card li { padding-left: 0; text-align: center; }
+.price-card li::before { position: static; display: inline-block; vertical-align: -.16em; margin-right: 7px; }
+.g-5 .price-card li { padding-left: 0; }
+.price-card .btn { align-self: center; }
+.price-hora { justify-items: center; text-align: center; }
+.price-hora > div:last-child { justify-items: center; }
+.price-hora .btn { align-self: center; }
+
+
+/* --- Botón de reservar como franja ancha en todas las tarjetas (orden de César) --- */
+.price-card .btn { width: 100%; align-self: stretch; }
+.price-hora .btn { width: 100%; max-width: 420px; }
+.g-5 .price-card .btn { padding: 13px 14px; }
+
+
+/* --- Prueba 18-sep (orden de César): fondo NARANJA en las tarjetas de paquete --- */
+.price-card {
+  background-image:
+    linear-gradient(168deg, #fff1de, #ffd9a8),
+    linear-gradient(150deg, rgba(240, 138, 36, .6), rgba(230, 180, 60, .5) 55%, rgba(240, 138, 36, .35));
+}
+.price-card.pop {
+  background-image:
+    linear-gradient(168deg, #fff6e8, #ffd199),
+    linear-gradient(150deg, #f08a24, #e8b53f 55%, #f08a24);
+}
+.price-card .tag { background: linear-gradient(135deg, #ffb45c, #f08a24); color: #2b1600; box-shadow: 0 6px 16px -6px rgba(200, 105, 10, .7); }
+.price-card:hover {
+  box-shadow: 0 0 0 4px rgba(240, 138, 36, .12), 0 30px 56px -24px rgba(120, 60, 0, .45), 0 0 34px -10px rgba(240, 138, 36, .45);
+}
+@media (prefers-color-scheme: dark) {
+  .price-card {
+    background-image:
+      linear-gradient(168deg, #2a1b0b, #1d1207),
+      linear-gradient(150deg, rgba(240, 138, 36, .5), rgba(230, 180, 60, .4) 55%, rgba(240, 138, 36, .25));
+  }
+  .price-card.pop {
+    background-image:
+      linear-gradient(168deg, #33210d, #241608),
+      linear-gradient(150deg, #f08a24, #e8b53f 55%, #f08a24);
+  }
+}
+
+/* Sobre naranja, el precio y los chulitos bajan un tono de verde para mantener el contraste. */
+.price-card .price { color: var(--gold-2); }
+.price-card .price .cur { color: var(--gold-2); }
+.price-card li::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232f5e08' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E"); }
+@media (prefers-color-scheme: dark) {
+  .price-card .price, .price-card .price .cur { color: #f0b356; }
+  .price-card li::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f0b356' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E"); }
+}
