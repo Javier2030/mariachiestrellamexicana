@@ -5,6 +5,129 @@
 
   var WA = '573219760656';
 
+  /* Canal de llegada del cliente */
+  var canalDeLlegada = (function () {
+    var W = window, D = document, VIDA = 30 * 864e5, CLAVE = 'memCanal';
+    var sellos = {
+      instagram: '📸 Vengo de Instagram — ',
+      facebook: '👍 Vengo de Facebook — ',
+      tiktok: '🎵 Vengo de TikTok — '
+    };
+    var frase = 'Hola, quiero información de una serenata.';
+    var yaSellado = /Vengo de (Instagram|Facebook|TikTok) — /;
+    var apuntaAWa = /^(?:(?:https?:)?\/\/(?:wa\.me|(?:www\.|api\.|web\.)?whatsapp\.com)(?:[\/?#]|$)|whatsapp:\/\/)/i;
+
+    function getq(n) {
+      var s = W.location.search;
+      try { return new URLSearchParams(s).get(n); } catch (e) {
+        var m = new RegExp('[?&]' + n + '(?:=([^&]*))?(?:&|$)').exec(s);
+        return m ? (m[1] || '') : null;
+      }
+    }
+    function refHost() {
+      var m = /^https?:\/\/([^\/?#:]+)/i.exec(D.referrer || '');
+      return m ? m[1].toLowerCase() : '';
+    }
+    function quienMeEnvia() {
+      var us = (getq('utm_source') || '').toLowerCase(), h = refHost(), ua = navigator.userAgent || '';
+      if (us === 'instagram' || us === 'ig' || getq('ig') !== null) return 'instagram';
+      if (us === 'facebook' || us === 'fb') return 'facebook';
+      if (us === 'tiktok') return 'tiktok';
+      if (/(^|\.)instagram\.com$/.test(h) || /Instagram/.test(ua)) return 'instagram';
+      if (getq('fbclid') !== null || /(^|\.)facebook\.com$/.test(h) || /FBAN|FBAV/.test(ua)) return 'facebook';
+      if (/(^|\.)tiktok\.com$/.test(h) || /musical_ly|BytedanceWebview|TikTok/.test(ua)) return 'tiktok';
+      return null;
+    }
+    function canalPrevio() {
+      var r;
+      try { r = JSON.parse(localStorage.getItem(CLAVE)); if (r && sellos[r.o] && Date.now() - r.t < VIDA) return r.o; } catch (e) {}
+      try { r = JSON.parse(sessionStorage.getItem(CLAVE)); if (r && sellos[r.o]) return r.o; } catch (e) {}
+      return null;
+    }
+    function fijaCanal(o) {
+      var s = JSON.stringify({ o: o, t: Date.now() });
+      try { localStorage.setItem(CLAVE, s); } catch (e) {}
+      try { sessionStorage.setItem(CLAVE, s); } catch (e) {}
+    }
+
+    var nuevo = quienMeEnvia(), canal = nuevo || canalPrevio();
+    if (nuevo) fijaCanal(nuevo);
+    if (!canal) return function () { return null; };
+
+    function sellaUrl(u) {
+      if (typeof u !== 'string' || !apuntaAWa.test(u)) return u;
+      var orig = u, m = sellos[canal], hash = '', i = u.indexOf('#');
+      if (i > -1) { hash = u.slice(i); u = u.slice(0, i); }
+      var q = u.indexOf('?'), base = q < 0 ? u : u.slice(0, q);
+      var ps = q < 0 ? [] : u.slice(q + 1).split('&').filter(Boolean), hecho = false;
+      for (var j = 0; j < ps.length && !hecho; j++) {
+        if (!/^text=/i.test(ps[j])) continue;
+        var v = ps[j].slice(5), d = v;
+        try { d = decodeURIComponent(v.replace(/\+/g, ' ')); } catch (e) {}
+        hecho = true;
+        if (yaSellado.test(d)) return orig;
+        ps[j] = /^\s*$/.test(d) ? 'text=' + encodeURIComponent(m + frase) : 'text=' + encodeURIComponent(m) + v;
+      }
+      if (!hecho) ps.push('text=' + encodeURIComponent(m + frase));
+      return base + '?' + ps.join('&') + hash;
+    }
+    function sellaEl(el) {
+      if (!el || !el.getAttribute) return;
+      var h = el.getAttribute('href');
+      if (h) { var n = sellaUrl(h); if (n !== h) el.setAttribute('href', n); }
+      var c = el.getAttribute('onclick');
+      if (c && /wa\.me|whatsapp/i.test(c)) {
+        var n2 = c.replace(/https?:\/\/(?:wa\.me\/\d+|(?:api|web|www)\.whatsapp\.com\/send)[^'"\s)]*(?=['"])/gi, sellaUrl);
+        if (n2 !== c) el.setAttribute('onclick', n2);
+      }
+    }
+    function sellaTodo() {
+      var l = D.querySelectorAll('a[href*="wa.me"],a[href*="whatsapp"],[onclick*="wa.me"],[onclick*="whatsapp"]');
+      for (var i = 0; i < l.length; i++) sellaEl(l[i]);
+    }
+
+    sellaTodo();
+    if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', sellaTodo);
+    // enlaces que aparecen después de cargar
+    if (W.MutationObserver) {
+      var t = 0;
+      new MutationObserver(function () {
+        if (t) return;
+        t = setTimeout(function () { t = 0; sellaTodo(); }, 60);
+      }).observe(D.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['href', 'onclick'] });
+    }
+    // por captura: lo que se haya tocado a mano justo antes del clic también lleva la marca
+    D.addEventListener('click', function (e) {
+      for (var el = e.target; el && el !== D; el = el.parentNode) sellaEl(el);
+    }, true);
+    // aperturas programáticas (formularios)
+    var abrir = W.open;
+    W.open = function (u) {
+      var a = Array.prototype.slice.call(arguments);
+      a[0] = sellaUrl(u);
+      return abrir.apply(W, a);
+    };
+
+    // medición
+    function anunciaCanal() {
+      try {
+        if (typeof W.clarity === 'function') {
+          W.clarity('set', 'origen', canal);
+          if (nuevo && !sessionStorage.getItem(CLAVE + 'c')) { sessionStorage.setItem(CLAVE + 'c', '1'); W.clarity('event', 'llegada_' + canal); }
+        }
+      } catch (e) {}
+      try {
+        if (typeof W.gtag === 'function') {
+          W.gtag('set', { origen_visita: canal });
+          if (nuevo && !sessionStorage.getItem(CLAVE + 'g')) { sessionStorage.setItem(CLAVE + 'g', '1'); W.gtag('event', 'llegada_origen', { origen: canal }); }
+        }
+      } catch (e) {}
+    }
+    anunciaCanal();
+    W.addEventListener('load', function () { anunciaCanal(); setTimeout(anunciaCanal, 4000); });
+    return function () { return canal; };
+  })();
+
   /* --- Menú móvil --- */
   var burger = document.getElementById('burger');
   var nav = document.getElementById('nav');
@@ -302,6 +425,8 @@
   };
 
   function track(event, params) {
+    params = params || {};
+    var og = canalDeLlegada(); if (og) params.origen = og;
     if (typeof window.gtag === 'function') {
       window.gtag('event', event, params || {});
       if (CONV[event]) window.gtag('event', 'conversion', { send_to: CONV[event] });
