@@ -761,3 +761,27 @@ h2 { font-size: clamp(1.7rem, 1rem + 2.4vw, 2.7rem); letter-spacing: -.02em; }
   .price-card .price, .price-card .price .cur { color: #f0b356; }
   .price-card li::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f0b356' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E"); }
 }
+
+/* === NIVEL 22-oct: respuesta directa, datos, repertorio, zonas vecinas === */
+.nb-respuesta { margin: 0 0 22px; padding: 18px 22px; border-left: 4px solid var(--gold); background: var(--surface, #fff); border-radius: 0 var(--r) var(--r) 0; box-shadow: var(--sh-1, none); }
+.nb-respuesta p { margin: 0; font-size: 1.04rem; color: var(--paper); }
+.nb-datos { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 0 0 8px; }
+.nb-datos > div { padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-2, var(--ink-2)); }
+.nb-datos dt { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--gold); }
+.nb-datos dd { margin: 4px 0 0; font-size: .93rem; color: var(--paper-dim); }
+.nb-nota { margin: 1.2em 0; padding: 14px 18px; border: 1px dashed var(--line); border-radius: 14px; background: var(--surface-2, var(--ink-2)); }
+.nb-nota p { margin: 0; font-size: .95rem; }
+.nb-canciones { list-style: none; padding: 0 !important; display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 12px; }
+.nb-canciones li { margin: 0; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface, #fff); font-size: .9rem; color: var(--paper); }
+.nb-vecinas { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin: 18px 0 6px; }
+.nb-vec { display: flex; flex-direction: column; gap: 5px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface, #fff); color: var(--paper); transition: var(--t); }
+.nb-vec b { color: var(--gold-2); }
+.nb-vec span { font-size: .88rem; color: var(--paper-dim); }
+.nb-vec:hover { border-color: var(--gold); text-decoration: none; transform: translateY(-2px); box-shadow: var(--sh-1, none); }
+.nb-gal .gal { grid-template-columns: repeat(auto-fill, minmax(236px, 1fr)); }
+@media (max-width: 600px) { .nb-gal .gal { grid-template-columns: repeat(2, 1fr); } }
+.nb-hub { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin: 18px 0; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .nb-respuesta p, :root:not([data-theme="light"]) .nb-canciones li, :root:not([data-theme="light"]) .nb-vec { color: #e6f1da; }
+  :root:not([data-theme="light"]) .nb-vec b { color: #8fd14f; }
+}
