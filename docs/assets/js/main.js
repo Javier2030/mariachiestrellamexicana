@@ -265,6 +265,8 @@
         '• Fecha: ' + fechaTxt + '\n' +
         '• Hora: ' + g('q-time') + (g('q-zone') ? '\n• Localidad: ' + g('q-zone') : '');
 
+      msg += '\n• Web: ' + ((location.pathname || '/').replace(/^\/|\/$/g, '') || 'inicio');
+
       // Adjunta el gclid para poder atribuir la conversión a la campaña.
       var gclid = sessionStorage.getItem('mem_gclid');
       if (gclid) msg += '\n\nRef: ' + gclid;
@@ -415,9 +417,7 @@
   }
 
   /* --- Seguimiento de conversiones --- */
-  // Etiquetas de conversión de Google Ads (cuenta 504-187-1223). Cada contacto real
-  // —WhatsApp, llamada o formulario— se reporta a Ads para que la puja aprenda de
-  // clientes, no de clics. Sin esto, Ads solo sabe cuánta gente entró.
+  // Etiquetas de conversión: cada contacto (WhatsApp, llamada o formulario).
   var CONV = {
     whatsapp_click: 'AW-18373505088/W6IbCMHR1d4cEMDglblE',
     generate_lead:  'AW-18373505088/W6IbCMHR1d4cEMDglblE',

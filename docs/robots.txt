@@ -5,8 +5,6 @@ Disallow: /api/
 
 Sitemap: https://mariachiestrellamexicana.com/sitemap.xml
 
-# Contenido protegido (Ley 23 de 1982, Decisión Andina 351). No se autoriza copiar este sitio
-# para entrenar inteligencia artificial ni para herramientas de espionaje SEO de la competencia.
 User-agent: GPTBot
 User-agent: CCBot
 User-agent: Google-Extended
